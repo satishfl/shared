@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bali — Aug 20–30, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E2A22; --bg-deep:#0A2119; --card:#153A2D; --card-hi:#1B4636;
+    --gold:#E3B23C; --coral:#F0785A; --jade:#7FC29B; --sand:#F4ECD8;
+    --muted:#94AFA1; --line:#26523F;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--sand); font-family:'Public Sans', sans-serif; -webkit-font-smoothing:antialiased; padding-bottom:70px;}
+  .hero{padding:36px 20px 20px; background:radial-gradient(120% 100% at 15% 0%, rgba(227,178,60,0.18), transparent 55%), radial-gradient(120% 100% at 85% 10%, rgba(240,120,90,0.14), transparent 55%), var(--bg-deep); border-bottom:1px solid var(--line);}
+  .hero-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .hero-eyebrow{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--jade); margin-bottom:8px;}
+  .hero h1{font-family:'Fraunces', serif; font-weight:600; font-size:clamp(38px, 11vw, 52px); line-height:0.95; color:var(--sand); letter-spacing:-0.01em;}
+  .hero-sub{margin-top:10px; color:var(--muted); font-size:14px; max-width:38ch; line-height:1.5;}
+  .hero-meta{margin-top:14px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--gold);}
+  .edit-btn{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted); background:none; border:1px solid var(--line); padding:6px 12px; border-radius:20px; cursor:pointer; white-space:nowrap;}
+  .edit-btn.active{background:var(--coral); color:var(--bg-deep); border-color:var(--coral);}
+  .save-tag{font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--jade); margin-top:6px; text-align:right; min-height:14px;}
+
+  .daynav{position:sticky; top:0; z-index:30; display:flex; gap:6px; padding:12px 16px; background:rgba(14,42,34,0.94); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); overflow-x:auto; scrollbar-width:none;}
+  .daynav::-webkit-scrollbar{display:none;}
+  .daynav a{flex:0 0 auto; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--muted); text-decoration:none; padding:7px 12px; border-radius:20px; border:1px solid var(--line); white-space:nowrap;}
+  .daynav a:hover{color:var(--sand); border-color:var(--gold);}
+
+  main{max-width:640px; margin:0 auto; padding:8px 0 0;}
+  section.day{padding:30px 20px 6px; position:relative;}
+  section.day.leg-ubud{--leg:var(--jade);}
+  section.day.leg-seminyak{--leg:var(--coral);}
+  section.day.leg-flight{--leg:var(--gold);}
+  .day-head{display:flex; align-items:baseline; gap:12px; margin-bottom:4px;}
+  .day-label{font-family:'Fraunces', serif; font-weight:600; font-size:24px; color:var(--sand);}
+  .day-tag{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--leg, var(--gold)); border:1px solid var(--leg, var(--gold)); padding:3px 8px; border-radius:20px;}
+  .day-sub{font-size:13px; color:var(--muted); margin-bottom:18px;}
+
+  .timeline{position:relative; padding-left:28px;}
+  .timeline::before{content:""; position:absolute; left:9px; top:4px; bottom:4px; width:2px; background:linear-gradient(to bottom, var(--leg, var(--gold)), var(--line) 90%); opacity:0.6;}
+  .stop{position:relative; padding-bottom:20px;}
+  .stop:last-child{padding-bottom:4px;}
+  .stop-icon{position:absolute; left:-28px; top:1px; width:20px; height:20px; border-radius:50%; background:var(--card-hi); border:1.5px solid var(--leg, var(--gold)); display:flex; align-items:center; justify-content:center;}
+  .stop-icon svg{width:11px; height:11px; stroke:var(--sand); fill:none; stroke-width:1.8;}
+  .stop-time{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--leg, var(--gold)); margin-bottom:3px;}
+  .stop-name{font-size:16px; font-weight:600; color:var(--sand); margin-bottom:3px;}
+  .stop-blurb{font-size:13.5px; color:var(--muted); line-height:1.45; max-width:46ch;}
+
+  .stop.editing{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; margin-left:-8px;}
+  .stop.editing .stop-icon{left:-20px; top:12px;}
+  .field-row{display:flex; gap:6px; margin-bottom:6px;}
+  input, textarea, select{background:var(--bg-deep); color:var(--sand); border:1px solid var(--line); border-radius:6px; padding:6px 8px; font-size:13px; font-family:'Public Sans', sans-serif; width:100%;}
+  input:focus, textarea:focus, select:focus{outline:none; border-color:var(--gold);}
+  input.time-input{width:120px; flex:0 0 auto; font-family:'IBM Plex Mono', monospace; font-size:11px;}
+  select{width:110px; flex:0 0 auto; font-family:'IBM Plex Mono', monospace; font-size:11px;}
+  textarea{resize:vertical; min-height:38px;}
+  .del-btn{flex:0 0 auto; background:none; border:1px solid var(--line); color:var(--coral); border-radius:6px; width:30px; cursor:pointer; font-size:14px;}
+  .add-stop-btn{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--jade); background:none; border:1px dashed var(--line); border-radius:8px; padding:8px 12px; cursor:pointer; margin-top:4px; margin-left:-28px; width:calc(100% + 28px);}
+
+  .links-list{display:flex; flex-direction:column; gap:10px; margin-top:14px;}
+  .links-list a{color:var(--jade); font-size:14px; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:10px; display:block;}
+
+  .divider{max-width:640px; margin:8px auto 0; padding:0 20px;}
+  .divider hr{border:none; height:1px; background:linear-gradient(to right, transparent, var(--line), transparent);}
+  footer{max-width:640px; margin:30px auto 0; padding:0 20px; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted); text-align:center;}
+  .loading{padding:60px 20px; text-align:center; color:var(--muted); font-family:'IBM Plex Mono', monospace; font-size:13px;}
+</style>
+</head>
+<body>
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="hero-eyebrow">Trip itinerary</div>
+        <h1>Bali</h1>
+        <p class="hero-sub">Ubud jungle to Seminyak coast — temples, rice terraces, and sunset over the sea.</p>
+        <div class="hero-meta">ATL · AUH · DPS &nbsp;·&nbsp; Aug 20–30, 2026</div>
+      </div>
+      <button class="edit-btn" id="editToggle">Edit</button>
+    </div>
+    <div class="save-tag" id="saveTag"></div>
+  </div>
+  <nav class="daynav" id="dayNav"></nav>
+  <main id="app"><div class="loading">Loading itinerary…</div></main>
+  <footer>Bali · Aug 20–30, 2026</footer>
+
+<script>
+const ICONS = {
+  flight: '<path d="M2 16l20-7-7 15-3-8-8-3z"/>',
+  stay: '<path d="M3 10v9M21 10v9M3 19h18M3 10l9-6 9 6M6 19v-5h5v5"/>',
+  food: '<path d="M6 3v18M6 3c-2 0-3 2-3 4s1 3 3 3M18 3v18M18 8a3 3 0 000-6"/>',
+  sight: '<path d="M4 21h16M6 21V9l6-6 6 6v12M9 21v-6h6v6"/>',
+  free: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'
+};
+const CATS = ['flight','stay','food','sight','free'];
+const LINKS = [
+  {label:'Vegetarian Guide to Bali — travel-lush.com', url:'https://travel-lush.com/vegetarian-guide-bali/'}
+];
+
+const defaultData = [
+  {id:'d1', date:'Sat, Aug 22', tag:'Ubud', sub:'Arrival', leg:'ubud', stops:[
+    {time:'11:25 AM', name:'Land at DPS', blurb:'', icon:'flight'},
+    {time:'~1:00 PM', name:'Transfer to Ubud', blurb:'', icon:'free'},
+    {time:'3:00 PM', name:'Check in — Maya Ubud Resort & Spa', blurb:'', icon:'stay'},
+    {time:'5:00 PM', name:'Campuhan Ridge Walk', blurb:'Easy scenic walk, timed just before sunset.', icon:'sight'},
+    {time:'Evening', name:'Dinner in central Ubud', blurb:'', icon:'food'}
+  ]},
+  {id:'d2', date:'Sun, Aug 23', tag:'Ubud', sub:'Full day — temples & terraces', leg:'ubud', stops:[
+    {time:'8:00 AM', name:'Tirta Empul Temple', blurb:'Water purification ritual — bring a change of clothes / sarong.', icon:'sight'},
+    {time:'10:30 AM', name:'Tegalalang Rice Terrace', blurb:'', icon:'sight'},
+    {time:'11:45 AM', name:'Bali Pulina coffee & tea tasting', blurb:'Free flight of teas/coffees overlooking the terraces.', icon:'food'},
+    {time:'12:30 PM', name:'Lunch — Cretya Pool Club', blurb:'', icon:'food'},
+    {time:'Afternoon', name:'Free time / pool', blurb:'', icon:'free'},
+    {time:'Evening', name:'Spa treatment + dinner at Maya Ubud', blurb:'', icon:'food'}
+  ]},
+  {id:'d3', date:'Mon, Aug 24', tag:'Ubud → Seminyak', sub:'Checkout day', leg:'ubud', stops:[
+    {time:'11:00 AM', name:'Check out, store luggage', blurb:'', icon:'stay'},
+    {time:'11:30 AM', name:'Ubud Palace & Ubud Market', blurb:'', icon:'sight'},
+    {time:'1:00 PM', name:'Lunch in Ubud', blurb:'', icon:'food'},
+    {time:'2:30 PM', name:'Tegenungan Waterfall', blurb:'~25 min south — good spot for a swim.', icon:'sight'},
+    {time:'~7:30–8:00 PM', name:'Check in — Annora Villas Seminyak', blurb:'', icon:'stay'},
+    {time:'Evening', name:'Dinner — BATIK Restaurant Bar', blurb:'', icon:'food'}
+  ]},
+  {id:'d4', date:'Tue, Aug 25', tag:'Seminyak', sub:'Beach & beach club', leg:'seminyak', stops:[
+    {time:'9:00 AM', name:'Breakfast at Annora Villas', blurb:'', icon:'food'},
+    {time:'10:30 AM', name:'Explore/shop in Seminyak', blurb:'', icon:'sight'},
+    {time:'1:30 PM', name:'Potato Head Beach Club', blurb:'', icon:'sight'},
+    {time:'5:30 PM', name:'Back at the villa, relax', blurb:'', icon:'free'},
+    {time:'~7:00 PM', name:'Dinner', blurb:'', icon:'food'}
+  ]},
+  {id:'d5', date:'Wed, Aug 26', tag:'Bukit Peninsula', sub:'GWK, Uluwatu & fire dance', leg:'seminyak', stops:[
+    {time:'9:00 AM', name:'Breakfast — Revolver Espresso', blurb:'', icon:'food'},
+    {time:'10:30 AM', name:'Garuda Wisnu Kencana Cultural Park', blurb:'Statue, grounds, cultural exhibits — cooler light in the morning.', icon:'sight'},
+    {time:'12:30 PM', name:'Lunch nearby', blurb:'', icon:'food'},
+    {time:'4:30 PM', name:'Uluwatu Temple', blurb:'', icon:'sight'},
+    {time:'6:00 PM', name:'Kecak Fire Dance', blurb:'Book ahead — this sells out.', icon:'sight'},
+    {time:'7:30 PM', name:'Dinner — TBD', blurb:'', icon:'food'}
+  ]},
+  {id:'d6', date:'Thu, Aug 27', tag:'Seminyak', sub:'Free day', leg:'seminyak', stops:[
+    {time:'9:00 AM', name:'Breakfast at Annora Villas', blurb:'', icon:'food'},
+    {time:'Day', name:'Free day — pool, shopping, unwind', blurb:'', icon:'free'},
+    {time:'Evening', name:'Dinner', blurb:'', icon:'food'}
+  ]},
+  {id:'d7', date:'Fri, Aug 28', tag:'Seminyak', sub:'Open — not yet planned', leg:'seminyak', stops:[
+    {time:'Day', name:'TBD', blurb:'', icon:'free'}
+  ]},
+  {id:'d8', date:'Sat, Aug 29', tag:'Seminyak', sub:'Departure day', leg:'seminyak', stops:[
+    {time:'Day', name:'TBD', blurb:'', icon:'free'},
+    {time:'Evening', name:'Shower, pack, relaxed dinner near the villa', blurb:'', icon:'free'},
+    {time:'~10:00–10:30 PM', name:'Head to DPS airport', blurb:'', icon:'flight'}
+  ]},
+  {id:'d9', date:'Sun, Aug 30', tag:'Depart', sub:'DPS → AUH → ATL', leg:'flight', stops:[
+    {time:'1:30 AM', name:'Depart DPS — EY 479', blurb:'', icon:'flight'},
+    {time:'Layover', name:'Abu Dhabi', blurb:'', icon:'free'},
+    {time:'9:20 AM', name:'Depart AUH — EY 13', blurb:'', icon:'flight'},
+    {time:'4:30 PM EDT', name:'Land ATL', blurb:'', icon:'flight'}
+  ]}
+];
+
+let data = JSON.parse(JSON.stringify(defaultData));
+let editMode = false;
+let saveTimer = null;
+const STORAGE_KEY = 'bali-itinerary-aug2026';
+
+function esc(s){
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+function scheduleSave(){
+  const tag = document.getElementById('saveTag');
+  tag.textContent = 'Saving…';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try{
+      await window.storage.set(STORAGE_KEY, JSON.stringify(data), true);
+      tag.textContent = 'Saved';
+      setTimeout(()=>{ if(tag.textContent==='Saved') tag.textContent=''; }, 1500);
+    }catch(e){
+      tag.textContent = 'Save failed';
+      console.error('Storage save error:', e);
+    }
+  }, 500);
+}
+
+async function loadData(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, true);
+    if(res && res.value){
+      data = JSON.parse(res.value);
+    } else {
+      await window.storage.set(STORAGE_KEY, JSON.stringify(data), true);
+    }
+  }catch(e){
+    try{ await window.storage.set(STORAGE_KEY, JSON.stringify(data), true); }catch(e2){}
+  }
+  render();
+}
+
+function renderNav(){
+  document.getElementById('dayNav').innerHTML = data.map(d => {
+    const short = d.date.replace(/^\w+,\s*/, '');
+    return `<a href="#${d.id}">${short}</a>`;
+  }).join('');
+}
+
+function stopView(dayIdx, stopIdx, stop){
+  if(!editMode){
+    return `
+      <div class="stop">
+        <div class="stop-icon"><svg viewBox="0 0 24 24">${ICONS[stop.icon] || ICONS.free}</svg></div>
+        <div class="stop-time">${esc(stop.time)}</div>
+        <div class="stop-name">${esc(stop.name)}</div>
+        ${stop.blurb ? `<div class="stop-blurb">${esc(stop.blurb)}</div>` : ''}
+      </div>`;
+  }
+  const catOptions = CATS.map(c => `<option value="${c}" ${c===stop.icon?'selected':''}>${c}</option>`).join('');
+  return `
+    <div class="stop editing">
+      <div class="stop-icon"><svg viewBox="0 0 24 24">${ICONS[stop.icon] || ICONS.free}</svg></div>
+      <div class="field-row">
+        <input class="time-input" data-day="${dayIdx}" data-stop="${stopIdx}" data-field="time" value="${esc(stop.time)}" placeholder="Time">
+        <select data-day="${dayIdx}" data-stop="${stopIdx}" data-field="icon">${catOptions}</select>
+        <button class="del-btn" data-day="${dayIdx}" data-stop="${stopIdx}" data-action="del">×</button>
+      </div>
+      <div class="field-row">
+        <input data-day="${dayIdx}" data-stop="${stopIdx}" data-field="name" value="${esc(stop.name)}" placeholder="Stop name">
+      </div>
+      <div class="field-row">
+        <textarea data-day="${dayIdx}" data-stop="${stopIdx}" data-field="blurb" placeholder="Optional note">${esc(stop.blurb)}</textarea>
+      </div>
+    </div>`;
+}
+
+function dayView(day, dayIdx){
+  const stopsHtml = day.stops.map((s, i) => stopView(dayIdx, i, s)).join('');
+  const addBtn = editMode ? `<button class="add-stop-btn" data-day="${dayIdx}" data-action="add">+ Add stop</button>` : '';
+  return `
+    <section class="day leg-${day.leg}" id="${day.id}">
+      <div class="day-head">
+        <span class="day-label">${esc(day.date)}</span>
+        <span class="day-tag">${esc(day.tag)}</span>
+      </div>
+      <div class="day-sub">${esc(day.sub)}</div>
+      <div class="timeline">${stopsHtml}${addBtn}</div>
+    </section>
+    <div class="divider"><hr></div>`;
+}
+
+function linksView(){
+  const items = LINKS.map(l => `<a href="${l.url}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('');
+  return `
+    <section class="day">
+      <div class="day-head"><span class="day-label" style="font-size:22px;">Helpful Links</span></div>
+      <div class="links-list">${items}</div>
+    </section>`;
+}
+
+function render(){
+  renderNav();
+  const app = document.getElementById('app');
+  app.innerHTML = data.map((d,i) => dayView(d,i)).join('') + linksView();
+  document.getElementById('editToggle').textContent = editMode ? 'Done' : 'Edit';
+  document.getElementById('editToggle').className = 'edit-btn' + (editMode ? ' active' : '');
+  bindEvents();
+}
+
+function bindEvents(){
+  document.querySelectorAll('[data-field]').forEach(el => {
+    const evt = (el.tagName === 'SELECT') ? 'change' : 'input';
+    el.addEventListener(evt, (e) => {
+      const di = +e.target.dataset.day, si = +e.target.dataset.stop, field = e.target.dataset.field;
+      data[di].stops[si][field] = e.target.value;
+      scheduleSave();
+      if(field === 'icon'){
+        const icon = e.target.closest('.stop').querySelector('.stop-icon svg');
+        icon.innerHTML = ICONS[e.target.value] || ICONS.free;
+      }
+    });
+  });
+  document.querySelectorAll('[data-action="del"]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const di = +e.target.dataset.day, si = +e.target.dataset.stop;
+      data[di].stops.splice(si, 1);
+      scheduleSave();
+      render();
+    });
+  });
+  document.querySelectorAll('[data-action="add"]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const di = +e.target.dataset.day;
+      data[di].stops.push({time:'', name:'New stop', blurb:'', icon:'free'});
+      scheduleSave();
+      render();
+    });
+  });
+}
+
+document.getElementById('editToggle').addEventListener('click', () => {
+  editMode = !editMode;
+  render();
+});
+
+loadData();
+</script>
+</body>
+</html>
