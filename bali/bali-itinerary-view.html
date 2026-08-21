@@ -43,6 +43,10 @@
   .stop:last-child{padding-bottom:4px;}
   .stop-icon{position:absolute; left:-28px; top:1px; width:20px; height:20px; border-radius:50%; background:var(--card-hi); border:1.5px solid var(--leg, var(--gold)); display:flex; align-items:center; justify-content:center;}
   .stop-icon svg{width:11px; height:11px; stroke:var(--sand); fill:none; stroke-width:1.8;}
+  .stop-body{display:flex; gap:12px; align-items:flex-start;}
+  .stop-thumb{flex:0 0 auto; width:56px; height:56px; border-radius:10px; overflow:hidden; border:1px solid var(--line);}
+  .stop-thumb svg{width:100%; height:100%; display:block;}
+  .stop-text{flex:1; min-width:0;}
   .stop-time{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--leg, var(--gold)); margin-bottom:3px;}
   .stop-name{font-size:16px; font-weight:600; color:var(--sand); margin-bottom:3px;}
   .stop-blurb{font-size:13.5px; color:var(--muted); line-height:1.45; max-width:46ch;}
@@ -89,6 +93,27 @@ const ICONS = {
   sight: '<path d="M4 21h16M6 21V9l6-6 6 6v12M9 21v-6h6v6"/>',
   free: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'
 };
+
+// Small inline-SVG "postcard" thumbnails per destination, keyed by motif. Drawn in-line
+// (no external image hosting) so they always render — a broken hotlinked photo would
+// look worse than a simple icon. Background rx="12" fill="#1B4636" matches --card-hi.
+const THUMBS = {
+  ridge: '<rect width="64" height="64" rx="12" fill="#1B4636"/><circle cx="46" cy="16" r="6" fill="#E3B23C" fill-opacity="0.35" stroke="#E3B23C" stroke-width="1.5"/><path d="M4 46c8-14 16-18 22-12s10 14 18 8 12-16 18-10" stroke="#E3B23C" stroke-width="2" fill="none" stroke-linecap="round"/>',
+  templeWater: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M32 8l6 7h-12z" fill="#E3B23C" fill-opacity="0.3" stroke="#E3B23C" stroke-width="1.4"/><rect x="23" y="15" width="18" height="5" rx="1" fill="#E3B23C" fill-opacity="0.2" stroke="#E3B23C" stroke-width="1.2"/><rect x="18" y="21" width="28" height="6" rx="1" fill="#E3B23C" fill-opacity="0.15" stroke="#E3B23C" stroke-width="1.2"/><rect x="27" y="27" width="10" height="12" fill="none" stroke="#E3B23C" stroke-width="1.2"/><path d="M10 48c5-5 9-5 14 0s9 5 14 0 9-5 14 0" stroke="#E3B23C" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
+  atv: '<rect width="64" height="64" rx="12" fill="#1B4636"/><circle cx="18" cy="42" r="7" fill="none" stroke="#E3B23C" stroke-width="1.8"/><circle cx="46" cy="42" r="7" fill="none" stroke="#E3B23C" stroke-width="1.8"/><path d="M18 42h10l6-10h8l4 10h-4M28 32l4-6h6" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 50c6-2 10-2 14 0" stroke="#E3B23C" stroke-width="1.4" stroke-dasharray="2 3" fill="none"/>',
+  elephant: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M14 44c-2-10 4-18 14-18 8 0 12 4 14 10 4 0 6 3 6 6s-2 5-6 5h-2v6h-4v-6H24c-1 0-2 1-2 2v4h-4v-5c-3-1-4-3-4-4z" fill="none" stroke="#E3B23C" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 44c-3 2-5 6-4 10" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="24" cy="30" r="1.6" fill="#E3B23C"/>',
+  riceTerrace: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M4 46h56M8 40h48M12 34h40M16 28h32M20 22h24" stroke="#E3B23C" stroke-width="1.6" stroke-linecap="round"/><path d="M46 22c0-6 4-10 4-10s4 4 4 10-2 8-4 8-4-2-4-8z" fill="#E3B23C" fill-opacity="0.2" stroke="#E3B23C" stroke-width="1.2"/>',
+  pool: '<rect width="64" height="64" rx="12" fill="#1B4636"/><circle cx="46" cy="14" r="6" fill="#E3B23C" fill-opacity="0.3" stroke="#E3B23C" stroke-width="1.4"/><path d="M8 34c2 3 6 3 8 0s6-3 8 0 6 3 8 0 6-3 8 0 6 3 8 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M8 44c2 3 6 3 8 0s6-3 8 0 6 3 8 0 6-3 8 0 6 3 8 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  monkeyForest: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M8 50c4-14 8-18 8-18M56 50c-4-14-8-18-8-18" stroke="#E3B23C" stroke-width="1.4" fill="none" stroke-linecap="round"/><circle cx="32" cy="26" r="9" fill="none" stroke="#E3B23C" stroke-width="1.6"/><circle cx="24" cy="20" r="3.4" fill="none" stroke="#E3B23C" stroke-width="1.4"/><circle cx="40" cy="20" r="3.4" fill="none" stroke="#E3B23C" stroke-width="1.4"/><circle cx="29" cy="25" r="1.2" fill="#E3B23C"/><circle cx="35" cy="25" r="1.2" fill="#E3B23C"/><path d="M28 30c1.5 1.5 6.5 1.5 8 0" stroke="#E3B23C" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
+  cliffTemple: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M4 54c10-4 18-4 28 0s18 4 28 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M22 46V20c0-2 2-4 6-4h2v30M42 46V20c0-2-2-4-6-4h-2v30" fill="none" stroke="#E3B23C" stroke-width="1.6" stroke-linejoin="round"/><path d="M22 26h8M34 26h8M22 34h8M34 34h8" stroke="#E3B23C" stroke-width="1.2"/>',
+  fireDance: '<rect width="64" height="64" rx="12" fill="#1B4636"/><circle cx="32" cy="34" r="16" fill="none" stroke="#E3B23C" stroke-width="1.2" stroke-dasharray="3 4"/><circle cx="24" cy="20" r="2" fill="#E3B23C"/><circle cx="40" cy="20" r="2" fill="#E3B23C"/><circle cx="18" cy="30" r="1.6" fill="#E3B23C"/><circle cx="46" cy="30" r="1.6" fill="#E3B23C"/><path d="M32 44c-4 0-6-4-6-4s2 2 4 1-2-6 2-10c0 4 2 4 2 7s4 2 3 5-3 1-5 1z" fill="#E3B23C" fill-opacity="0.3" stroke="#E3B23C" stroke-width="1.2"/>',
+  beachTown: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M32 10v30" stroke="#E3B23C" stroke-width="1.6" stroke-linecap="round"/><path d="M14 20c0-10 8-14 18-14s18 4 18 14z" fill="#E3B23C" fill-opacity="0.2" stroke="#E3B23C" stroke-width="1.4"/><path d="M6 50c8-3 14-3 20 0s14 3 20 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M46 34l6 4-6 12h-4z" fill="none" stroke="#E3B23C" stroke-width="1.3" stroke-linejoin="round"/>',
+  beachClub: '<rect width="64" height="64" rx="12" fill="#1B4636"/><circle cx="46" cy="14" r="6" fill="#E3B23C" fill-opacity="0.3" stroke="#E3B23C" stroke-width="1.3"/><path d="M6 40h16l4-6M30 40h16l4-6" stroke="#E3B23C" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 52c10-4 16-4 24 0s14 4 24 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  seaTemple: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M22 40c0-10 4-16 4-16h12s4 6 4 16z" fill="#E3B23C" fill-opacity="0.2" stroke="#E3B23C" stroke-width="1.4"/><path d="M28 24l4-8 4 8" stroke="#E3B23C" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M14 44c4 2 4-2 8 0s4-2 8 0 4-2 8 0 4-2 8 0 4-2 8 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M10 52c4 2 4-2 8 0s4-2 8 0 4-2 8 0 4-2 8 0 4-2 8 0" stroke="#E3B23C" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.6"/>',
+  coveBeach: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M4 20c8 0 10 6 10 14s6 10 6 16H4z" fill="#E3B23C" fill-opacity="0.15" stroke="#E3B23C" stroke-width="1.3"/><path d="M60 20c-8 0-10 6-10 14s-6 10-6 16h16z" fill="#E3B23C" fill-opacity="0.15" stroke="#E3B23C" stroke-width="1.3"/><circle cx="32" cy="18" r="5" fill="#E3B23C" fill-opacity="0.3" stroke="#E3B23C" stroke-width="1.2"/><path d="M14 50c6-2 10-2 18 0s12 2 18 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  seafoodBeach: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M10 32c8-6 16-6 20 0-4 6-12 6-20 0z" fill="none" stroke="#E3B23C" stroke-width="1.5" stroke-linejoin="round"/><path d="M30 32l6-4M30 32l6 4" stroke="#E3B23C" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="16" cy="30" r="1.2" fill="#E3B23C"/><path d="M6 48c6-2 10-2 16 0s10 2 16 0 10-2 16 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  airplane: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M32 6l3 14 16 8v4l-16-4-2 12 5 4v3l-6-2-6 2v-3l5-4-2-12-16 4v-4l16-8z" fill="#E3B23C" fill-opacity="0.25" stroke="#E3B23C" stroke-width="1.2" stroke-linejoin="round"/>'
+};
 const LINKS = [
   {label:'Vegetarian Guide to Bali — travel-lush.com', url:'https://travel-lush.com/vegetarian-guide-bali/'}
 ];
@@ -101,7 +126,8 @@ const UBUD_LINKS = [
   {label:'Karsa Spa', url:'https://www.google.com/maps/search/?api=1&query=Karsa+Spa+Ubud+Bali', distance:'~6–7 km · ~20–25 min'},
   {label:'Mekar by K Club', url:'https://www.google.com/maps/search/?api=1&query=Mekar+by+K+Club+Ubud+Bali', distance:'~10–12 km · ~20–25 min'},
   {label:'Hesa Wellness Spa', url:'https://www.google.com/maps/search/?api=1&query=Hesa+Wellness+Spa+Ubud+Bali', distance:'~4–5 km · ~10–15 min'},
-  {label:'Putri Bali Spa', url:'https://www.google.com/maps/search/?api=1&query=Putri+Bali+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min'}
+  {label:'Putri Bali Spa', url:'https://www.google.com/maps/search/?api=1&query=Putri+Bali+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min'},
+  {label:'Kamandaka Spa', url:'https://www.google.com/maps/search/?api=1&query=Kamandaka+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min'}
 ];
 
 // Each day carries a `hotel` field naming the hotel that day's stop distances are
@@ -114,24 +140,24 @@ const defaultData = [
     {time:'11:25 AM', name:'Land at DPS', blurb:'', icon:'flight'},
     {time:'~1:00 PM', name:'Transfer to Ubud', blurb:'', icon:'free'},
     {time:'3:00 PM', name:'Check in — Maya Ubud Resort & Spa', blurb:'', icon:'stay'},
-    {time:'5:00 PM', name:'Campuhan Ridge Walk', blurb:'Easy scenic walk, timed just before sunset.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Campuhan+Ridge+Walk+Ubud+Bali', dist:'~3 km · ~10 min'},
+    {time:'5:00 PM', name:'Campuhan Ridge Walk', blurb:'Easy scenic walk, timed just before sunset.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Campuhan+Ridge+Walk+Ubud+Bali', dist:'~3 km · ~10 min', photo:'ridge'},
     {time:'Evening', name:'Dinner in central Ubud', blurb:'', icon:'food'}
   ]},
   {id:'d2', date:'Sun, Aug 23', tag:'Ubud', sub:'Temple, ATV & elephant park', leg:'ubud', hotel:'Maya Ubud Resort & Spa', stops:[
-    {time:'8:00 AM', name:'Tirta Empul Temple', blurb:'Water purification ritual — bring a change of clothes / sarong.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tirta+Empul+Temple+Bali', dist:'~15 km · ~30–35 min'},
-    {time:'10:30 AM', name:'ATV Ride — Kuber Bali Adventure', blurb:'Highly rated on TripAdvisor: jungle trails, rice fields, river, waterfall, and a 750m Dutch-era tunnel. Book ahead.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Kuber+Bali+Adventure', dist:'~9 km · ~20–25 min'},
+    {time:'8:00 AM', name:'Tirta Empul Temple', blurb:'Water purification ritual — bring a change of clothes / sarong.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tirta+Empul+Temple+Bali', dist:'~15 km · ~30–35 min', photo:'templeWater'},
+    {time:'10:30 AM', name:'ATV Ride — Kuber Bali Adventure', blurb:'Highly rated on TripAdvisor: jungle trails, rice fields, river, waterfall, and a 750m Dutch-era tunnel. Book ahead.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Kuber+Bali+Adventure', dist:'~9 km · ~20–25 min', photo:'atv'},
     {time:'1:00 PM', name:'Lunch near Tegallalang', blurb:'', icon:'food'},
     {time:'2:00 PM', name:'Depart for Mason Elephant Park', blurb:'~31 min drive, 13.6 km from Kuber ATV — much closer from here than from the hotel.', icon:'free'},
-    {time:'2:30 PM', name:'Mason Elephant Park & Lodge', blurb:'4/5 on TripAdvisor (~1,500 reviews). Feeding, bathing, museum — budget ~2 hrs. Reviews on the ethics are mixed despite the sanctuary branding, worth knowing going in.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Mason+Elephant+Park+%26+Lodge+Bali', dist:'~18.4 km · ~46 min'},
+    {time:'2:30 PM', name:'Mason Elephant Park & Lodge', blurb:'4/5 on TripAdvisor (~1,500 reviews). Feeding, bathing, museum — budget ~2 hrs. Reviews on the ethics are mixed despite the sanctuary branding, worth knowing going in.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Mason+Elephant+Park+%26+Lodge+Bali', dist:'~18.4 km · ~46 min', photo:'elephant'},
     {time:'4:30 PM', name:'Depart for hotel', blurb:'~46 min drive, 18.4 km.', icon:'free'},
     {time:'Evening', name:'Spa treatment + dinner at Maya Ubud', blurb:'~5:15 PM arrival back.', icon:'food'}
   ]},
   {id:'d3', date:'Mon, Aug 24', tag:'Ubud → Ubud', sub:'Alas Harum & Monkey Forest, hotel swap', leg:'ubud', hotel:'Maya Ubud Resort & Spa (until check-in at Viceroy Bali)', stops:[
     {time:'7:30 AM', name:'Check out — Maya Ubud Resort & Spa', blurb:'~25 min drive to Alas Harum.', icon:'stay'},
-    {time:'8:00 AM', name:'Alas Harum Bali — Tegalalang Rice Terrace', blurb:'Swings, photo spots, rice terrace views. Arriving at 8 AM beats the tour-bus crowds — budget ~3.5–4 hrs to do it properly.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Alas+Harum+Bali', dist:'~9–10 km · ~25 min'},
-    {time:'~12:00 PM', name:'Lunch — Cretya Pool Club', blurb:'Pool club within Alas Harum, no travel needed.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Cretya+Pool+Club+Alas+Harum+Bali', dist:'~9–10 km · ~25 min'},
+    {time:'8:00 AM', name:'Alas Harum Bali — Tegalalang Rice Terrace', blurb:'Swings, photo spots, rice terrace views. Arriving at 8 AM beats the tour-bus crowds — budget ~3.5–4 hrs to do it properly.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Alas+Harum+Bali', dist:'~9–10 km · ~25 min', photo:'riceTerrace'},
+    {time:'~12:00 PM', name:'Lunch — Cretya Pool Club', blurb:'Pool club within Alas Harum, no travel needed.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Cretya+Pool+Club+Alas+Harum+Bali', dist:'~9–10 km · ~25 min', photo:'pool'},
     {time:'1:00 PM', name:'Depart for Monkey Forest', blurb:'~28 min drive, 12.2 km.', icon:'free'},
-    {time:'1:30 PM', name:'Ubud Monkey Forest', blurb:'Allow 1–1.5 hrs walking the sanctuary.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Ubud+Monkey+Forest', dist:'~3–4 km · ~10–15 min'},
+    {time:'1:30 PM', name:'Ubud Monkey Forest', blurb:'Allow 1–1.5 hrs walking the sanctuary.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Ubud+Monkey+Forest', dist:'~3–4 km · ~10–15 min', photo:'monkeyForest'},
     {time:'~3:00 PM', name:'Check in — Viceroy Bali', blurb:'~25 min drive, 4.9 km. (Tegenungan Waterfall removed for now — it was a ~50 min detour off this route; can revisit adding it back another day.)', icon:'stay'},
     {time:'Evening', name:'Dinner — TBD', blurb:'', icon:'food'}
   ]},
@@ -147,8 +173,8 @@ const defaultData = [
     {time:'12:45 PM', name:'Lunch nearby', blurb:'', icon:'food'},
     {time:'Afternoon', name:'Relaxed pool / beach time', blurb:'Free time at the Ritz-Carlton before heading to Uluwatu.', icon:'free'},
     {time:'3:15 PM', name:'Depart for Uluwatu', blurb:'~35 min drive, ~15 km.', icon:'free'},
-    {time:'3:50 PM', name:'Uluwatu Temple', blurb:'', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Uluwatu+Temple+Bali', dist:'~15 km · ~35 min'},
-    {time:'6:00 PM', name:'Kecak Fire Dance', blurb:'Book ahead — this sells out.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Uluwatu+Kecak+Fire+Dance', dist:'~15 km · ~35 min'},
+    {time:'3:50 PM', name:'Uluwatu Temple', blurb:'', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Uluwatu+Temple+Bali', dist:'~15 km · ~35 min', photo:'cliffTemple'},
+    {time:'6:00 PM', name:'Kecak Fire Dance', blurb:'Book ahead — this sells out.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Uluwatu+Kecak+Fire+Dance', dist:'~15 km · ~35 min', photo:'fireDance'},
     {time:'7:30 PM', name:'Dinner — TBD', blurb:'', icon:'food'},
     {time:'~9:00 PM', name:'Back to The Ritz-Carlton', blurb:'~35 min drive from Uluwatu — already checked in.', icon:'free'}
   ]},
@@ -156,25 +182,25 @@ const defaultData = [
     {time:'9:00 AM', name:'Breakfast at The Ritz-Carlton', blurb:'', icon:'food'},
     {time:'Morning', name:'Relaxed pool / beach time', blurb:'', icon:'free'},
     {time:'12:00 PM', name:'Depart for Seminyak', blurb:'~52 min drive, 22.5 km (toll road) — this is a long haul from Nusa Dua.', icon:'free'},
-    {time:'12:50 PM', name:'Explore / shop in Seminyak', blurb:'', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Seminyak+Bali', dist:'~22.5 km · ~52 min'},
-    {time:'2:30 PM', name:'Potato Head Beach Club', blurb:'~8 min drive, 1.8 km from Seminyak Square.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Potato+Head+Beach+Club+Bali', dist:'~24 km · ~55–60 min'},
+    {time:'12:50 PM', name:'Explore / shop in Seminyak', blurb:'', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Seminyak+Bali', dist:'~22.5 km · ~52 min', photo:'beachTown'},
+    {time:'2:30 PM', name:'Potato Head Beach Club', blurb:'~8 min drive, 1.8 km from Seminyak Square.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Potato+Head+Beach+Club+Bali', dist:'~24 km · ~55–60 min', photo:'beachClub'},
     {time:'4:30 PM', name:'Depart for Tanah Lot', blurb:'~1 hr 3 min drive, 17.1 km.', icon:'free'},
-    {time:'5:35 PM', name:'Tanah Lot Temple', blurb:'Explore the grounds before sunset (~6:00–6:15 PM this time of year — worth double-checking closer to the date).', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tanah+Lot+Temple+Bali', dist:'~43.7 km · ~1 hr 48 min'},
+    {time:'5:35 PM', name:'Tanah Lot Temple', blurb:'Explore the grounds before sunset (~6:00–6:15 PM this time of year — worth double-checking closer to the date).', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tanah+Lot+Temple+Bali', dist:'~43.7 km · ~1 hr 48 min', photo:'seaTemple'},
     {time:'~6:30 PM', name:'Depart for hotel', blurb:'~1 hr 48 min drive, 43.7 km — the return leg is the longest of the day. Consider dinner near Tanah Lot/Canggu before heading back instead of driving straight through.', icon:'free'},
     {time:'Evening', name:'Dinner', blurb:'', icon:'food'}
   ]},
   {id:'d7', date:'Fri, Aug 28', tag:'Nusa Dua → Ungasan → Jimbaran', sub:'Easy day — Sundays Beach Club', leg:'seminyak', hotel:'The Ritz-Carlton, Bali (Nusa Dua)', stops:[
     {time:'9:30 AM', name:'Breakfast at The Ritz-Carlton', blurb:'', icon:'food'},
     {time:'10:00 AM', name:'Depart for Sundays Beach Club', blurb:'~22 min drive, 10.7 km.', icon:'free'},
-    {time:'10:30 AM', name:'Sundays Beach Club', blurb:'Funicular down to a cliffside cove — pools, sunbeds, lunch on-site. Sun dips behind the clifftop ~4:30–5 PM, then sunset bonfire + live music 5–8 PM if you want to stay late. Whole day here is the plan — no rush.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Sundays+Beach+Club+Bali', dist:'~10.7 km · ~22 min'},
+    {time:'10:30 AM', name:'Sundays Beach Club', blurb:'Funicular down to a cliffside cove — pools, sunbeds, lunch on-site. Sun dips behind the clifftop ~4:30–5 PM, then sunset bonfire + live music 5–8 PM if you want to stay late. Whole day here is the plan — no rush.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Sundays+Beach+Club+Bali', dist:'~10.7 km · ~22 min', photo:'coveBeach'},
     {time:'~5:30 PM', name:'Depart for Jimbaran', blurb:'~34 min drive, 9.2 km.', icon:'free'},
-    {time:'~6:00 PM', name:'Dinner — Jimbaran Bay seafood', blurb:'Classic Bali experience: tables on the sand, fresh-grilled seafood.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Jimbaran+Bay+Seafood+Restaurants+Bali', dist:'~13.7 km · ~32 min'},
+    {time:'~6:00 PM', name:'Dinner — Jimbaran Bay seafood', blurb:'Classic Bali experience: tables on the sand, fresh-grilled seafood.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Jimbaran+Bay+Seafood+Restaurants+Bali', dist:'~13.7 km · ~32 min', photo:'seafoodBeach'},
     {time:'~8:00 PM', name:'Back to hotel', blurb:'~32 min drive, 13.7 km.', icon:'free'}
   ]},
   {id:'d8', date:'Sat, Aug 29', tag:'Nusa Dua', sub:'Departure day', leg:'seminyak', hotel:'The Ritz-Carlton, Bali (Nusa Dua)', stops:[
     {time:'Day', name:'TBD', blurb:'', icon:'free'},
     {time:'Evening', name:'Shower, pack, relaxed dinner near the hotel', blurb:'', icon:'free'},
-    {time:'~10:00–10:30 PM', name:'Head to DPS airport', blurb:'', icon:'flight', maps:'https://www.google.com/maps/search/?api=1&query=Ngurah+Rai+International+Airport+DPS', dist:'~10–12 km · ~20–25 min'}
+    {time:'~10:00–10:30 PM', name:'Head to DPS airport', blurb:'', icon:'flight', maps:'https://www.google.com/maps/search/?api=1&query=Ngurah+Rai+International+Airport+DPS', dist:'~10–12 km · ~20–25 min', photo:'airplane'}
   ]},
   {id:'d9', date:'Sun, Aug 30', tag:'Depart', sub:'DPS → AUH → ATL', leg:'flight', stops:[
     {time:'1:30 AM', name:'Depart DPS — EY 479', blurb:'', icon:'flight'},
@@ -200,13 +226,19 @@ function renderNav(){
 }
 
 function stopView(stop){
+  const thumb = stop.photo ? `<div class="stop-thumb"><svg viewBox="0 0 64 64">${THUMBS[stop.photo] || ''}</svg></div>` : '';
   return `
     <div class="stop">
       <div class="stop-icon"><svg viewBox="0 0 24 24">${ICONS[stop.icon] || ICONS.free}</svg></div>
-      <div class="stop-time">${esc(stop.time)}</div>
-      <div class="stop-name">${esc(stop.name)}</div>
-      ${stop.blurb ? `<div class="stop-blurb">${esc(stop.blurb)}</div>` : ''}
-      ${stop.maps ? `<div class="stop-map"><a href="${stop.maps}" target="_blank" rel="noopener">View on Google Maps</a>${stop.dist ? ` <span class="stop-dist">· ${esc(stop.dist)} from hotel</span>` : ''}</div>` : ''}
+      <div class="stop-body">
+        ${thumb}
+        <div class="stop-text">
+          <div class="stop-time">${esc(stop.time)}</div>
+          <div class="stop-name">${esc(stop.name)}</div>
+          ${stop.blurb ? `<div class="stop-blurb">${esc(stop.blurb)}</div>` : ''}
+          ${stop.maps ? `<div class="stop-map"><a href="${stop.maps}" target="_blank" rel="noopener">View on Google Maps</a>${stop.dist ? ` <span class="stop-dist">· ${esc(stop.dist)} from hotel</span>` : ''}</div>` : ''}
+        </div>
+      </div>
     </div>`;
 }
 
