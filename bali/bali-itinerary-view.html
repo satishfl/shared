@@ -123,6 +123,11 @@ const LINKS = [
 
 // Distances/times are estimates from Maya Ubud Resort & Spa (Peliatan, Ubud) — worth
 // double-checking against Google Maps live traffic before locking in a day plan.
+// Caveats that don't fit the one-line list format: Jungle Cart's distance is to their
+// Kedewatan check-in office — the actual track is a further ~30 min shuttle ride away in
+// Payangan. Svaha Wellness has other branches around Ubud (Celuk, Teges, Kenderan) beyond
+// the Bisma one linked here. The Heaven Garden is the Lempuyang "Gates of Heaven" site —
+// genuinely far (East Bali), a full-day trip rather than a quick Ubud-area stop.
 const UBUD_LINKS = [
   {label:'Sekumpul Waterfall', url:'https://www.google.com/maps/search/?api=1&query=Sekumpul+Waterfall+Bali', distance:'~75–80 km · ~2–2.5 hr'},
   {label:'The Hanging Cafe (Sekumpul)', url:'https://www.google.com/maps/search/?api=1&query=Hanging+Restaurant+Sekumpul+Bali', distance:'~75–80 km · ~2–2.5 hr'},
@@ -133,9 +138,9 @@ const UBUD_LINKS = [
   {label:'Kamandaka Spa', url:'https://www.google.com/maps/search/?api=1&query=Kamandaka+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min'},
   {label:'Akasa Cafe (Kintamani — Mt Batur views)', url:'https://www.google.com/maps/search/?api=1&query=Akasa+Specialty+Coffee+Kintamani+Bali', distance:'~38–40 km · ~50–60 min'},
   {label:'Jalan Goutama (shopping street)', url:'https://www.google.com/maps/search/?api=1&query=Jalan+Goutama+Ubud+Bali', distance:'~3–4 km · ~10–15 min'},
-  {label:'Jungle Cart (karting, Kedewatan check-in)', url:'https://www.google.com/maps/search/?api=1&query=Jungle+Cart+Bali+Kedewatan+Ubud', distance:'~5–7 km · ~15–20 min (then a further ~30 min shuttle to the track in Payangan)'},
-  {label:'Svaha Wellness — Spa Bisma', url:'https://www.google.com/maps/search/?api=1&query=Svaha+Spa+Bisma+Ubud+Bali', distance:'~3–4 km · ~10–15 min (Svaha has other branches — Celuk, Teges, Kenderan — confirm which one)'},
-  {label:'The Heaven Garden (Lempuyang "Gates of Heaven") — East Bali', url:'https://www.google.com/maps/search/?api=1&query=The+Heaven+Garden+Lempuyang+Karangasem+Bali', distance:'~70–90 km · ~2–3 hr — full-day East Bali trip, not an Ubud-area stop'}
+  {label:'Jungle Cart (karting)', url:'https://www.google.com/maps/search/?api=1&query=Jungle+Cart+Bali+Kedewatan+Ubud', distance:'~5–7 km · ~15–20 min'},
+  {label:'Svaha Wellness (Spa Bisma)', url:'https://www.google.com/maps/search/?api=1&query=Svaha+Spa+Bisma+Ubud+Bali', distance:'~3–4 km · ~10–15 min'},
+  {label:'The Heaven Garden (Lempuyang, East Bali)', url:'https://www.google.com/maps/search/?api=1&query=The+Heaven+Garden+Lempuyang+Karangasem+Bali', distance:'~70–90 km · ~2–3 hr'}
 ];
 
 // Each day carries a `hotel` field naming the hotel that day's stop distances are
