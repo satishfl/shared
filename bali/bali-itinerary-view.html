@@ -50,6 +50,11 @@
   .links-list{display:flex; flex-direction:column; gap:10px; margin-top:14px;}
   .links-list a{color:var(--jade); font-size:14px; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:10px; display:block;}
 
+  .ubud-links-list{display:flex; flex-direction:column; gap:12px; margin-top:14px;}
+  .ubud-links-list a{color:inherit; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:10px; display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .ubud-link-name{color:var(--jade); font-size:14px;}
+  .ubud-link-dist{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); white-space:nowrap; flex:0 0 auto;}
+
   .divider{max-width:640px; margin:8px auto 0; padding:0 20px;}
   .divider hr{border:none; height:1px; background:linear-gradient(to right, transparent, var(--line), transparent);}
   footer{max-width:640px; margin:30px auto 0; padding:0 20px; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted); text-align:center;}
@@ -81,6 +86,17 @@ const ICONS = {
 };
 const LINKS = [
   {label:'Vegetarian Guide to Bali — travel-lush.com', url:'https://travel-lush.com/vegetarian-guide-bali/'}
+];
+
+// Distances/times are estimates from Maya Ubud Resort & Spa (Peliatan, Ubud) — worth
+// double-checking against Google Maps live traffic before locking in a day plan.
+const UBUD_LINKS = [
+  {label:'Sekumpul Waterfall', url:'https://www.google.com/maps/search/?api=1&query=Sekumpul+Waterfall+Bali', distance:'~75–80 km · ~2–2.5 hr'},
+  {label:'The Hanging Cafe (Sekumpul)', url:'https://www.google.com/maps/search/?api=1&query=Hanging+Restaurant+Sekumpul+Bali', distance:'~75–80 km · ~2–2.5 hr'},
+  {label:'Karsa Spa', url:'https://www.google.com/maps/search/?api=1&query=Karsa+Spa+Ubud+Bali', distance:'~6–7 km · ~20–25 min'},
+  {label:'Mekar by K Club', url:'https://www.google.com/maps/search/?api=1&query=Mekar+by+K+Club+Ubud+Bali', distance:'~10–12 km · ~20–25 min'},
+  {label:'Hesa Wellness Spa', url:'https://www.google.com/maps/search/?api=1&query=Hesa+Wellness+Spa+Ubud+Bali', distance:'~4–5 km · ~10–15 min'},
+  {label:'Putri Bali Spa', url:'https://www.google.com/maps/search/?api=1&query=Putri+Bali+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min'}
 ];
 
 const defaultData = [
@@ -206,10 +222,24 @@ function linksView(){
     </section>`;
 }
 
+function ubudLinksView(){
+  const items = UBUD_LINKS.map(l => `
+    <a href="${l.url}" target="_blank" rel="noopener">
+      <span class="ubud-link-name">${esc(l.label)}</span>
+      <span class="ubud-link-dist">${esc(l.distance)}</span>
+    </a>`).join('');
+  return `
+    <section class="day">
+      <div class="day-head"><span class="day-label" style="font-size:22px;">Ubud Links</span></div>
+      <div class="day-sub">Google Maps links + estimated distance/time from Maya Ubud Resort &amp; Spa.</div>
+      <div class="ubud-links-list">${items}</div>
+    </section>`;
+}
+
 function render(){
   renderNav();
   const app = document.getElementById('app');
-  app.innerHTML = data.map(d => dayView(d)).join('') + linksView();
+  app.innerHTML = data.map(d => dayView(d)).join('') + ubudLinksView() + linksView();
 }
 
 render();
