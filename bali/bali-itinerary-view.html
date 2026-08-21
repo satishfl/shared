@@ -60,9 +60,12 @@
   .links-list a{color:var(--jade); font-size:14px; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:10px; display:block;}
 
   .ubud-links-list{display:flex; flex-direction:column; gap:12px; margin-top:14px;}
-  .ubud-links-list a{color:inherit; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:10px; display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .ubud-link-row{border-bottom:1px solid var(--line); padding-bottom:10px; display:flex; align-items:baseline; gap:10px;}
+  .ubud-link-row a.ubud-link-main{flex:1; min-width:0; color:inherit; text-decoration:none; display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
   .ubud-link-name{color:var(--jade); font-size:14px;}
   .ubud-link-dist{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); white-space:nowrap; flex:0 0 auto;}
+  .ubud-link-wa{flex:0 0 auto; color:var(--jade); text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:11px; border:1px solid var(--line); border-radius:20px; padding:2px 8px; white-space:nowrap;}
+  .ubud-link-wa:hover{color:var(--gold); border-color:var(--gold);}
 
   .divider{max-width:640px; margin:8px auto 0; padding:0 20px;}
   .divider hr{border:none; height:1px; background:linear-gradient(to right, transparent, var(--line), transparent);}
@@ -130,18 +133,23 @@ const LINKS = [
 // genuinely far (East Bali), a full-day trip rather than a quick Ubud-area stop.
 const UBUD_LINKS = [
   {label:'Sekumpul Waterfall', url:'https://www.google.com/maps/search/?api=1&query=Sekumpul+Waterfall+Bali', distance:'~75–80 km · ~2–2.5 hr'},
-  {label:'The Hanging Cafe (Sekumpul)', url:'https://www.google.com/maps/search/?api=1&query=Hanging+Restaurant+Sekumpul+Bali', distance:'~75–80 km · ~2–2.5 hr'},
-  {label:'Karsa Spa', url:'https://www.google.com/maps/search/?api=1&query=Karsa+Spa+Ubud+Bali', distance:'~6–7 km · ~20–25 min'},
-  {label:'Mekar by K Club', url:'https://www.google.com/maps/search/?api=1&query=Mekar+by+K+Club+Ubud+Bali', distance:'~10–12 km · ~20–25 min'},
-  {label:'Hesa Wellness Spa', url:'https://www.google.com/maps/search/?api=1&query=Hesa+Wellness+Spa+Ubud+Bali', distance:'~4–5 km · ~10–15 min'},
-  {label:'Putri Bali Spa', url:'https://www.google.com/maps/search/?api=1&query=Putri+Bali+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min'},
-  {label:'Kamandaka Spa', url:'https://www.google.com/maps/search/?api=1&query=Kamandaka+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min'},
+  {label:'The Hanging Cafe (Sekumpul)', url:'https://www.google.com/maps/search/?api=1&query=Hanging+Restaurant+Sekumpul+Bali', distance:'~75–80 km · ~2–2.5 hr', whatsapp:'https://wa.me/6287762441229'},
+  {label:'Karsa Spa', url:'https://www.google.com/maps/search/?api=1&query=Karsa+Spa+Ubud+Bali', distance:'~6–7 km · ~20–25 min', whatsapp:'https://wa.me/6281353392013'},
+  {label:'Mekar by K Club', url:'https://www.google.com/maps/search/?api=1&query=Mekar+by+K+Club+Ubud+Bali', distance:'~10–12 km · ~20–25 min', whatsapp:'https://wa.me/6281802185888'},
+  {label:'Hesa Wellness Spa', url:'https://www.google.com/maps/search/?api=1&query=Hesa+Wellness+Spa+Ubud+Bali', distance:'~4–5 km · ~10–15 min', whatsapp:'https://wa.me/6287836002121'},
+  {label:'Putri Bali Spa', url:'https://www.google.com/maps/search/?api=1&query=Putri+Bali+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min', whatsapp:'https://wa.me/6281936318394'},
+  {label:'Kamandaka Spa', url:'https://www.google.com/maps/search/?api=1&query=Kamandaka+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min', whatsapp:'https://wa.me/628113984566'},
   {label:'Akasa Cafe (Kintamani — Mt Batur views)', url:'https://www.google.com/maps/search/?api=1&query=Akasa+Specialty+Coffee+Kintamani+Bali', distance:'~38–40 km · ~50–60 min'},
   {label:'Jalan Goutama (shopping street)', url:'https://www.google.com/maps/search/?api=1&query=Jalan+Goutama+Ubud+Bali', distance:'~3–4 km · ~10–15 min'},
-  {label:'Jungle Cart (karting)', url:'https://www.google.com/maps/search/?api=1&query=Jungle+Cart+Bali+Kedewatan+Ubud', distance:'~5–7 km · ~15–20 min'},
-  {label:'Svaha Wellness (Spa Bisma)', url:'https://www.google.com/maps/search/?api=1&query=Svaha+Spa+Bisma+Ubud+Bali', distance:'~3–4 km · ~10–15 min'},
-  {label:'The Heaven Garden (Lempuyang, East Bali)', url:'https://www.google.com/maps/search/?api=1&query=The+Heaven+Garden+Lempuyang+Karangasem+Bali', distance:'~70–90 km · ~2–3 hr'}
+  {label:'Jungle Cart (karting)', url:'https://www.google.com/maps/search/?api=1&query=Jungle+Cart+Bali+Kedewatan+Ubud', distance:'~5–7 km · ~15–20 min', whatsapp:'https://wa.me/6287779071000'},
+  {label:'Svaha Wellness (Spa Bisma)', url:'https://www.google.com/maps/search/?api=1&query=Svaha+Spa+Bisma+Ubud+Bali', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6281235447189'},
+  {label:'The Heaven Garden (Lempuyang, East Bali)', url:'https://www.google.com/maps/search/?api=1&query=The+Heaven+Garden+Lempuyang+Karangasem+Bali', distance:'~70–90 km · ~2–3 hr', whatsapp:'https://wa.me/6285808381312'}
 ];
+
+// `whatsapp` numbers were found via web search, not dialed/confirmed. Several businesses
+// (Hesa, Putri Bali, Mekar, Svaha) had more than one number listed across sources — the
+// one used here is a best guess, worth confirming before relying on it. No number found
+// for Sekumpul Waterfall (not a business) or Akasa Cafe; Jalan Goutama is a street.
 
 // Each day carries a `hotel` field naming the hotel that day's stop distances are
 // measured from (shown in the UI as "Distances below from: ..."). Distances/times on
@@ -284,14 +292,17 @@ function linksView(){
 
 function ubudLinksView(){
   const items = UBUD_LINKS.map(l => `
-    <a href="${l.url}" target="_blank" rel="noopener">
-      <span class="ubud-link-name">${esc(l.label)}</span>
-      <span class="ubud-link-dist">${esc(l.distance)}</span>
-    </a>`).join('');
+    <div class="ubud-link-row">
+      <a class="ubud-link-main" href="${l.url}" target="_blank" rel="noopener">
+        <span class="ubud-link-name">${esc(l.label)}</span>
+        <span class="ubud-link-dist">${esc(l.distance)}</span>
+      </a>
+      ${l.whatsapp ? `<a class="ubud-link-wa" href="${l.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+    </div>`).join('');
   return `
     <section class="day">
       <div class="day-head"><span class="day-label" style="font-size:22px;">Ubud Links</span></div>
-      <div class="day-sub">Google Maps links + estimated distance/time from Maya Ubud Resort &amp; Spa.</div>
+      <div class="day-sub">Google Maps links + estimated distance/time from Maya Ubud Resort &amp; Spa. WhatsApp button shown where the business has one.</div>
       <div class="ubud-links-list">${items}</div>
     </section>`;
 }
