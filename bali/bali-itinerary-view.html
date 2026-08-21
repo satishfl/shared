@@ -46,6 +46,11 @@
   .stop-time{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--leg, var(--gold)); margin-bottom:3px;}
   .stop-name{font-size:16px; font-weight:600; color:var(--sand); margin-bottom:3px;}
   .stop-blurb{font-size:13.5px; color:var(--muted); line-height:1.45; max-width:46ch;}
+  .stop-map{margin-top:5px; font-family:'IBM Plex Mono', monospace; font-size:12px;}
+  .stop-map a{color:var(--jade); text-decoration:none; border-bottom:1px solid var(--line);}
+  .stop-map a:hover{color:var(--gold);}
+  .stop-dist{color:var(--muted);}
+  .day-hotel{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--leg, var(--gold)); margin:-10px 0 16px;}
 
   .links-list{display:flex; flex-direction:column; gap:10px; margin-top:14px;}
   .links-list a{color:var(--jade); font-size:14px; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:10px; display:block;}
@@ -99,72 +104,77 @@ const UBUD_LINKS = [
   {label:'Putri Bali Spa', url:'https://www.google.com/maps/search/?api=1&query=Putri+Bali+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min'}
 ];
 
+// Each day carries a `hotel` field naming the hotel that day's stop distances are
+// measured from (shown in the UI as "Distances below from: ..."). Distances/times on
+// individual stops (`maps` + `dist`) are drawn from existing point-to-point drive times
+// already in this file where available, otherwise estimated — worth double-checking
+// against Google Maps live traffic before locking in a day plan.
 const defaultData = [
-  {id:'d1', date:'Sat, Aug 22', tag:'Ubud', sub:'Arrival', leg:'ubud', stops:[
+  {id:'d1', date:'Sat, Aug 22', tag:'Ubud', sub:'Arrival', leg:'ubud', hotel:'Maya Ubud Resort & Spa', stops:[
     {time:'11:25 AM', name:'Land at DPS', blurb:'', icon:'flight'},
     {time:'~1:00 PM', name:'Transfer to Ubud', blurb:'', icon:'free'},
     {time:'3:00 PM', name:'Check in — Maya Ubud Resort & Spa', blurb:'', icon:'stay'},
-    {time:'5:00 PM', name:'Campuhan Ridge Walk', blurb:'Easy scenic walk, timed just before sunset.', icon:'sight'},
+    {time:'5:00 PM', name:'Campuhan Ridge Walk', blurb:'Easy scenic walk, timed just before sunset.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Campuhan+Ridge+Walk+Ubud+Bali', dist:'~3 km · ~10 min'},
     {time:'Evening', name:'Dinner in central Ubud', blurb:'', icon:'food'}
   ]},
-  {id:'d2', date:'Sun, Aug 23', tag:'Ubud', sub:'Temple, ATV & elephant park', leg:'ubud', stops:[
-    {time:'8:00 AM', name:'Tirta Empul Temple', blurb:'Water purification ritual — bring a change of clothes / sarong.', icon:'sight'},
-    {time:'10:30 AM', name:'ATV Ride — Kuber Bali Adventure', blurb:'Highly rated on TripAdvisor: jungle trails, rice fields, river, waterfall, and a 750m Dutch-era tunnel. Book ahead.', icon:'sight'},
+  {id:'d2', date:'Sun, Aug 23', tag:'Ubud', sub:'Temple, ATV & elephant park', leg:'ubud', hotel:'Maya Ubud Resort & Spa', stops:[
+    {time:'8:00 AM', name:'Tirta Empul Temple', blurb:'Water purification ritual — bring a change of clothes / sarong.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tirta+Empul+Temple+Bali', dist:'~15 km · ~30–35 min'},
+    {time:'10:30 AM', name:'ATV Ride — Kuber Bali Adventure', blurb:'Highly rated on TripAdvisor: jungle trails, rice fields, river, waterfall, and a 750m Dutch-era tunnel. Book ahead.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Kuber+Bali+Adventure', dist:'~9 km · ~20–25 min'},
     {time:'1:00 PM', name:'Lunch near Tegallalang', blurb:'', icon:'food'},
     {time:'2:00 PM', name:'Depart for Mason Elephant Park', blurb:'~31 min drive, 13.6 km from Kuber ATV — much closer from here than from the hotel.', icon:'free'},
-    {time:'2:30 PM', name:'Mason Elephant Park & Lodge', blurb:'4/5 on TripAdvisor (~1,500 reviews). Feeding, bathing, museum — budget ~2 hrs. Reviews on the ethics are mixed despite the sanctuary branding, worth knowing going in.', icon:'sight'},
+    {time:'2:30 PM', name:'Mason Elephant Park & Lodge', blurb:'4/5 on TripAdvisor (~1,500 reviews). Feeding, bathing, museum — budget ~2 hrs. Reviews on the ethics are mixed despite the sanctuary branding, worth knowing going in.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Mason+Elephant+Park+%26+Lodge+Bali', dist:'~18.4 km · ~46 min'},
     {time:'4:30 PM', name:'Depart for hotel', blurb:'~46 min drive, 18.4 km.', icon:'free'},
     {time:'Evening', name:'Spa treatment + dinner at Maya Ubud', blurb:'~5:15 PM arrival back.', icon:'food'}
   ]},
-  {id:'d3', date:'Mon, Aug 24', tag:'Ubud → Ubud', sub:'Alas Harum & Monkey Forest, hotel swap', leg:'ubud', stops:[
+  {id:'d3', date:'Mon, Aug 24', tag:'Ubud → Ubud', sub:'Alas Harum & Monkey Forest, hotel swap', leg:'ubud', hotel:'Maya Ubud Resort & Spa (until check-in at Viceroy Bali)', stops:[
     {time:'7:30 AM', name:'Check out — Maya Ubud Resort & Spa', blurb:'~25 min drive to Alas Harum.', icon:'stay'},
-    {time:'8:00 AM', name:'Alas Harum Bali — Tegalalang Rice Terrace', blurb:'Swings, photo spots, rice terrace views. Arriving at 8 AM beats the tour-bus crowds — budget ~3.5–4 hrs to do it properly.', icon:'sight'},
-    {time:'~12:00 PM', name:'Lunch — Cretya Pool Club', blurb:'Pool club within Alas Harum, no travel needed.', icon:'food'},
+    {time:'8:00 AM', name:'Alas Harum Bali — Tegalalang Rice Terrace', blurb:'Swings, photo spots, rice terrace views. Arriving at 8 AM beats the tour-bus crowds — budget ~3.5–4 hrs to do it properly.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Alas+Harum+Bali', dist:'~9–10 km · ~25 min'},
+    {time:'~12:00 PM', name:'Lunch — Cretya Pool Club', blurb:'Pool club within Alas Harum, no travel needed.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Cretya+Pool+Club+Alas+Harum+Bali', dist:'~9–10 km · ~25 min'},
     {time:'1:00 PM', name:'Depart for Monkey Forest', blurb:'~28 min drive, 12.2 km.', icon:'free'},
-    {time:'1:30 PM', name:'Ubud Monkey Forest', blurb:'Allow 1–1.5 hrs walking the sanctuary.', icon:'sight'},
+    {time:'1:30 PM', name:'Ubud Monkey Forest', blurb:'Allow 1–1.5 hrs walking the sanctuary.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Ubud+Monkey+Forest', dist:'~3–4 km · ~10–15 min'},
     {time:'~3:00 PM', name:'Check in — Viceroy Bali', blurb:'~25 min drive, 4.9 km. (Tegenungan Waterfall removed for now — it was a ~50 min detour off this route; can revisit adding it back another day.)', icon:'stay'},
     {time:'Evening', name:'Dinner — TBD', blurb:'', icon:'food'}
   ]},
-  {id:'d4', date:'Tue, Aug 25', tag:'Ubud', sub:'Free day — TBD', leg:'ubud', stops:[
+  {id:'d4', date:'Tue, Aug 25', tag:'Ubud', sub:'Free day — TBD', leg:'ubud', hotel:'Viceroy Bali', stops:[
     {time:'9:00 AM', name:'Breakfast at Viceroy Bali', blurb:'', icon:'food'},
     {time:'Day', name:'TBD', blurb:'', icon:'free'},
     {time:'Evening', name:'Dinner — TBD', blurb:'', icon:'food'}
   ]},
-  {id:'d5', date:'Wed, Aug 26', tag:'Ubud → Nusa Dua', sub:'Uluwatu & fire dance', leg:'seminyak', stops:[
+  {id:'d5', date:'Wed, Aug 26', tag:'Ubud → Nusa Dua', sub:'Uluwatu & fire dance', leg:'seminyak', hotel:'The Ritz-Carlton, Bali (Nusa Dua) — after check-in', stops:[
     {time:'8:30 AM', name:'Breakfast at Viceroy Bali', blurb:'', icon:'food'},
     {time:'10:00 AM', name:'Check out — Viceroy Bali', blurb:'~1 hr 53 min drive to Nusa Dua — Ubud to the Bukit Peninsula is a long haul, budget accordingly.', icon:'stay'},
     {time:'12:00 PM', name:'Check in — The Ritz-Carlton, Bali (Nusa Dua)', blurb:'', icon:'stay'},
     {time:'12:45 PM', name:'Lunch nearby', blurb:'', icon:'food'},
     {time:'Afternoon', name:'Relaxed pool / beach time', blurb:'Free time at the Ritz-Carlton before heading to Uluwatu.', icon:'free'},
     {time:'3:15 PM', name:'Depart for Uluwatu', blurb:'~35 min drive, ~15 km.', icon:'free'},
-    {time:'3:50 PM', name:'Uluwatu Temple', blurb:'', icon:'sight'},
-    {time:'6:00 PM', name:'Kecak Fire Dance', blurb:'Book ahead — this sells out.', icon:'sight'},
+    {time:'3:50 PM', name:'Uluwatu Temple', blurb:'', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Uluwatu+Temple+Bali', dist:'~15 km · ~35 min'},
+    {time:'6:00 PM', name:'Kecak Fire Dance', blurb:'Book ahead — this sells out.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Uluwatu+Kecak+Fire+Dance', dist:'~15 km · ~35 min'},
     {time:'7:30 PM', name:'Dinner — TBD', blurb:'', icon:'food'},
     {time:'~9:00 PM', name:'Back to The Ritz-Carlton', blurb:'~35 min drive from Uluwatu — already checked in.', icon:'free'}
   ]},
-  {id:'d6', date:'Thu, Aug 27', tag:'Nusa Dua → Seminyak → Tanah Lot', sub:'Beach day + sunset temple. Heads up: ~3h50m total driving today.', leg:'seminyak', stops:[
+  {id:'d6', date:'Thu, Aug 27', tag:'Nusa Dua → Seminyak → Tanah Lot', sub:'Beach day + sunset temple. Heads up: ~3h50m total driving today.', leg:'seminyak', hotel:'The Ritz-Carlton, Bali (Nusa Dua)', stops:[
     {time:'9:00 AM', name:'Breakfast at The Ritz-Carlton', blurb:'', icon:'food'},
     {time:'Morning', name:'Relaxed pool / beach time', blurb:'', icon:'free'},
     {time:'12:00 PM', name:'Depart for Seminyak', blurb:'~52 min drive, 22.5 km (toll road) — this is a long haul from Nusa Dua.', icon:'free'},
-    {time:'12:50 PM', name:'Explore / shop in Seminyak', blurb:'', icon:'sight'},
-    {time:'2:30 PM', name:'Potato Head Beach Club', blurb:'~8 min drive, 1.8 km from Seminyak Square.', icon:'sight'},
+    {time:'12:50 PM', name:'Explore / shop in Seminyak', blurb:'', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Seminyak+Bali', dist:'~22.5 km · ~52 min'},
+    {time:'2:30 PM', name:'Potato Head Beach Club', blurb:'~8 min drive, 1.8 km from Seminyak Square.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Potato+Head+Beach+Club+Bali', dist:'~24 km · ~55–60 min'},
     {time:'4:30 PM', name:'Depart for Tanah Lot', blurb:'~1 hr 3 min drive, 17.1 km.', icon:'free'},
-    {time:'5:35 PM', name:'Tanah Lot Temple', blurb:'Explore the grounds before sunset (~6:00–6:15 PM this time of year — worth double-checking closer to the date).', icon:'sight'},
+    {time:'5:35 PM', name:'Tanah Lot Temple', blurb:'Explore the grounds before sunset (~6:00–6:15 PM this time of year — worth double-checking closer to the date).', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tanah+Lot+Temple+Bali', dist:'~43.7 km · ~1 hr 48 min'},
     {time:'~6:30 PM', name:'Depart for hotel', blurb:'~1 hr 48 min drive, 43.7 km — the return leg is the longest of the day. Consider dinner near Tanah Lot/Canggu before heading back instead of driving straight through.', icon:'free'},
     {time:'Evening', name:'Dinner', blurb:'', icon:'food'}
   ]},
-  {id:'d7', date:'Fri, Aug 28', tag:'Nusa Dua → Ungasan → Jimbaran', sub:'Easy day — Sundays Beach Club', leg:'seminyak', stops:[
+  {id:'d7', date:'Fri, Aug 28', tag:'Nusa Dua → Ungasan → Jimbaran', sub:'Easy day — Sundays Beach Club', leg:'seminyak', hotel:'The Ritz-Carlton, Bali (Nusa Dua)', stops:[
     {time:'9:30 AM', name:'Breakfast at The Ritz-Carlton', blurb:'', icon:'food'},
     {time:'10:00 AM', name:'Depart for Sundays Beach Club', blurb:'~22 min drive, 10.7 km.', icon:'free'},
-    {time:'10:30 AM', name:'Sundays Beach Club', blurb:'Funicular down to a cliffside cove — pools, sunbeds, lunch on-site. Sun dips behind the clifftop ~4:30–5 PM, then sunset bonfire + live music 5–8 PM if you want to stay late. Whole day here is the plan — no rush.', icon:'sight'},
+    {time:'10:30 AM', name:'Sundays Beach Club', blurb:'Funicular down to a cliffside cove — pools, sunbeds, lunch on-site. Sun dips behind the clifftop ~4:30–5 PM, then sunset bonfire + live music 5–8 PM if you want to stay late. Whole day here is the plan — no rush.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Sundays+Beach+Club+Bali', dist:'~10.7 km · ~22 min'},
     {time:'~5:30 PM', name:'Depart for Jimbaran', blurb:'~34 min drive, 9.2 km.', icon:'free'},
-    {time:'~6:00 PM', name:'Dinner — Jimbaran Bay seafood', blurb:'Classic Bali experience: tables on the sand, fresh-grilled seafood.', icon:'food'},
+    {time:'~6:00 PM', name:'Dinner — Jimbaran Bay seafood', blurb:'Classic Bali experience: tables on the sand, fresh-grilled seafood.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Jimbaran+Bay+Seafood+Restaurants+Bali', dist:'~13.7 km · ~32 min'},
     {time:'~8:00 PM', name:'Back to hotel', blurb:'~32 min drive, 13.7 km.', icon:'free'}
   ]},
-  {id:'d8', date:'Sat, Aug 29', tag:'Nusa Dua', sub:'Departure day', leg:'seminyak', stops:[
+  {id:'d8', date:'Sat, Aug 29', tag:'Nusa Dua', sub:'Departure day', leg:'seminyak', hotel:'The Ritz-Carlton, Bali (Nusa Dua)', stops:[
     {time:'Day', name:'TBD', blurb:'', icon:'free'},
     {time:'Evening', name:'Shower, pack, relaxed dinner near the hotel', blurb:'', icon:'free'},
-    {time:'~10:00–10:30 PM', name:'Head to DPS airport', blurb:'', icon:'flight'}
+    {time:'~10:00–10:30 PM', name:'Head to DPS airport', blurb:'', icon:'flight', maps:'https://www.google.com/maps/search/?api=1&query=Ngurah+Rai+International+Airport+DPS', dist:'~10–12 km · ~20–25 min'}
   ]},
   {id:'d9', date:'Sun, Aug 30', tag:'Depart', sub:'DPS → AUH → ATL', leg:'flight', stops:[
     {time:'1:30 AM', name:'Depart DPS — EY 479', blurb:'', icon:'flight'},
@@ -196,6 +206,7 @@ function stopView(stop){
       <div class="stop-time">${esc(stop.time)}</div>
       <div class="stop-name">${esc(stop.name)}</div>
       ${stop.blurb ? `<div class="stop-blurb">${esc(stop.blurb)}</div>` : ''}
+      ${stop.maps ? `<div class="stop-map"><a href="${stop.maps}" target="_blank" rel="noopener">View on Google Maps</a>${stop.dist ? ` <span class="stop-dist">· ${esc(stop.dist)} from hotel</span>` : ''}</div>` : ''}
     </div>`;
 }
 
@@ -208,6 +219,7 @@ function dayView(day){
         <span class="day-tag">${esc(day.tag)}</span>
       </div>
       <div class="day-sub">${esc(day.sub)}</div>
+      ${day.hotel ? `<div class="day-hotel">Distances below from: ${esc(day.hotel)}</div>` : ''}
       <div class="timeline">${stopsHtml}</div>
     </section>
     <div class="divider"><hr></div>`;
