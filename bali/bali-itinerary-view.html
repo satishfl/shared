@@ -311,13 +311,24 @@ function ubudLinkItem(l){
     </div>`;
 }
 
+function kmValue(distance){
+  // Pulls the first number out of a distance string (e.g. "6" from "~6–7 km · ~20–25 min")
+  // so entries can be sorted nearest-first regardless of how the range is written.
+  const m = distance.match(/(\d+(?:\.\d+)?)/);
+  return m ? parseFloat(m[1]) : Infinity;
+}
+
+function byDistance(a, b){
+  return kmValue(a.distance) - kmValue(b.distance);
+}
+
 function ubudLinksView(){
-  const spas = UBUD_LINKS.filter(l => l.category === 'spa').map(ubudLinkItem).join('');
-  const attractions = UBUD_LINKS.filter(l => l.category === 'attraction').map(ubudLinkItem).join('');
+  const spas = UBUD_LINKS.filter(l => l.category === 'spa').sort(byDistance).map(ubudLinkItem).join('');
+  const attractions = UBUD_LINKS.filter(l => l.category === 'attraction').sort(byDistance).map(ubudLinkItem).join('');
   return `
     <section class="day">
       <div class="day-head"><span class="day-label" style="font-size:22px;">Ubud Links</span></div>
-      <div class="day-sub">Google Maps links + estimated distance/time from Maya Ubud Resort &amp; Spa. WhatsApp numbers were found via web search, not dialed to confirm — a few businesses had more than one number listed, so treat these as a best guess.</div>
+      <div class="day-sub">Google Maps links + estimated distance/time from Maya Ubud Resort &amp; Spa, nearest first. WhatsApp numbers were found via web search, not dialed to confirm — a few businesses had more than one number listed, so treat these as a best guess.</div>
       <div class="ubud-subsection-label">Spas</div>
       <div class="ubud-links-list">${spas}</div>
       <div class="ubud-subsection-label">Other Attractions</div>
