@@ -62,9 +62,9 @@
   .loc-links-list{display:flex; flex-direction:column; gap:12px; margin-top:14px;}
   .loc-link-item{border-bottom:1px solid var(--line); padding-bottom:10px;}
   .loc-link-row{display:flex; align-items:baseline; gap:10px;}
-  .loc-link-row a.loc-link-main{flex:1; min-width:0; color:inherit; text-decoration:none; display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .loc-link-row a.loc-link-main{flex:1; min-width:0; color:inherit; text-decoration:none; display:block;}
   .loc-link-name{color:var(--jade); font-size:14px;}
-  .loc-link-dist{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); white-space:nowrap; flex:0 0 auto;}
+  .loc-link-dist{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); white-space:nowrap; float:right; margin-left:10px;}
   .loc-link-wa{flex:0 0 auto; color:var(--jade); text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:11px; border:1px solid var(--line); border-radius:20px; padding:2px 8px; white-space:nowrap;}
   .loc-link-wa:hover{color:var(--gold); border-color:var(--gold);}
   .loc-link-note{margin-top:4px; font-size:12px; color:var(--muted); line-height:1.4;}
@@ -311,8 +311,8 @@ function locLinkItem(l){
     <div class="loc-link-item">
       <div class="loc-link-row">
         <a class="loc-link-main" href="${l.url}" target="_blank" rel="noopener">
-          <span class="loc-link-name">${esc(l.label)}</span>
           <span class="loc-link-dist">${esc(l.distance)}</span>
+          <span class="loc-link-name">${esc(l.label)}</span>
         </a>
         ${l.whatsapp ? `<a class="loc-link-wa" href="${l.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
       </div>
