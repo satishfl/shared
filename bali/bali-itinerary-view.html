@@ -120,7 +120,9 @@ const THUMBS = {
   seaTemple: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M22 40c0-10 4-16 4-16h12s4 6 4 16z" fill="#E3B23C" fill-opacity="0.2" stroke="#E3B23C" stroke-width="1.4"/><path d="M28 24l4-8 4 8" stroke="#E3B23C" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M14 44c4 2 4-2 8 0s4-2 8 0 4-2 8 0 4-2 8 0 4-2 8 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M10 52c4 2 4-2 8 0s4-2 8 0 4-2 8 0 4-2 8 0 4-2 8 0" stroke="#E3B23C" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.6"/>',
   coveBeach: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M4 20c8 0 10 6 10 14s6 10 6 16H4z" fill="#E3B23C" fill-opacity="0.15" stroke="#E3B23C" stroke-width="1.3"/><path d="M60 20c-8 0-10 6-10 14s-6 10-6 16h16z" fill="#E3B23C" fill-opacity="0.15" stroke="#E3B23C" stroke-width="1.3"/><circle cx="32" cy="18" r="5" fill="#E3B23C" fill-opacity="0.3" stroke="#E3B23C" stroke-width="1.2"/><path d="M14 50c6-2 10-2 18 0s12 2 18 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
   seafoodBeach: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M10 32c8-6 16-6 20 0-4 6-12 6-20 0z" fill="none" stroke="#E3B23C" stroke-width="1.5" stroke-linejoin="round"/><path d="M30 32l6-4M30 32l6 4" stroke="#E3B23C" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="16" cy="30" r="1.2" fill="#E3B23C"/><path d="M6 48c6-2 10-2 16 0s10 2 16 0 10-2 16 0" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
-  airplane: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M32 6l3 14 16 8v4l-16-4-2 12 5 4v3l-6-2-6 2v-3l5-4-2-12-16 4v-4l16-8z" fill="#E3B23C" fill-opacity="0.25" stroke="#E3B23C" stroke-width="1.2" stroke-linejoin="round"/>'
+  airplane: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M32 6l3 14 16 8v4l-16-4-2 12 5 4v3l-6-2-6 2v-3l5-4-2-12-16 4v-4l16-8z" fill="#E3B23C" fill-opacity="0.25" stroke="#E3B23C" stroke-width="1.2" stroke-linejoin="round"/>',
+  waterfall: '<rect width="64" height="64" rx="12" fill="#1B4636"/><path d="M20 10c0 8 2 10 2 16s-2 8-2 14M32 10c0 8 2 10 2 16s-2 8-2 14M44 10c0 8 2 10 2 16s-2 8-2 14" stroke="#E3B23C" stroke-width="1.6" fill="none" stroke-linecap="round"/><ellipse cx="32" cy="48" rx="22" ry="6" fill="#E3B23C" fill-opacity="0.2" stroke="#E3B23C" stroke-width="1.2"/>',
+  beauty: '<rect width="64" height="64" rx="12" fill="#1B4636"/><circle cx="16" cy="16" r="7" fill="none" stroke="#E3B23C" stroke-width="1.8"/><circle cx="16" cy="48" r="7" fill="none" stroke="#E3B23C" stroke-width="1.8"/><path d="M53 11L22 42M39 39l14 14M22 22l10 10" stroke="#E3B23C" stroke-width="1.8" fill="none" stroke-linecap="round"/>'
 };
 const LINKS = [
   {label:'Vegetarian Guide to Bali — travel-lush.com', url:'https://travel-lush.com/vegetarian-guide-bali/'},
@@ -190,7 +192,7 @@ const defaultData = [
     {time:'10:30 AM', name:'ATV Ride — Kuber Bali Adventure', blurb:'Highly rated on TripAdvisor: jungle trails, rice fields, river, waterfall, and a 750m Dutch-era tunnel. Book ahead.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Kuber+Bali+Adventure', dist:'~9 km · ~20–25 min', fromPrev:'~10–15 km · ~25–30 min from Tirta Empul Temple', photo:'atv'},
     {time:'1:00 PM', name:'Lunch near Tegallalang', blurb:'', icon:'food'},
     {time:'~2:30 PM', name:'Free time / depart for Ubud', blurb:'~25 min drive back to Ubud, ~9–10 km — comfortable buffer before the 4 PM appointment.', icon:'free'},
-    {time:'4:00 PM', name:'Fresh Beauty Lounge Ubud', blurb:'Fixed appointment — 75 min, ends ~5:15 PM. Dinner in central Ubud can follow nearby.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Fresh+Beauty+Lounge+Ubud+Bali', dist:'~3–4 km · ~10–15 min', fromPrev:'~9–10 km · ~25 min from the Tegallalang lunch spot', whatsapp:'https://wa.me/6281246612611'}
+    {time:'4:00 PM', name:'Fresh Beauty Lounge Ubud', blurb:'Fixed appointment — 75 min, ends ~5:15 PM. Dinner in central Ubud can follow nearby.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Fresh+Beauty+Lounge+Ubud+Bali', dist:'~3–4 km · ~10–15 min', fromPrev:'~9–10 km · ~25 min from the Tegallalang lunch spot', whatsapp:'https://wa.me/6281246612611', photo:'beauty'}
   ]},
   {id:'d3', date:'Mon, Aug 24', tag:'Ubud → Ubud', sub:'Alas Harum & Monkey Forest, hotel swap', leg:'ubud', hotel:'Maya Ubud Resort & Spa (until check-in at Viceroy Bali)', stops:[
     {time:'7:30 AM', name:'Check out — Maya Ubud Resort & Spa', blurb:'~25 min drive to Alas Harum.', icon:'stay'},
@@ -204,7 +206,7 @@ const defaultData = [
   {id:'d4', date:'Tue, Aug 25', tag:'Ubud', sub:'Free day — Tegenungan Waterfall', leg:'ubud', hotel:'Viceroy Bali', stops:[
     {time:'9:00 AM', name:'Breakfast at Viceroy Bali', blurb:'', icon:'food'},
     {time:'~10:30 AM', name:'Depart for Tegenungan Waterfall', blurb:'~25–35 min drive, ~10–13 km — estimate combining Ubud-center figures with Viceroy\'s location; worth confirming against live Maps traffic.', icon:'free'},
-    {time:'11:00 AM', name:'Tegenungan Waterfall', blurb:'~15m waterfall with a swimmable pool at the base. Omma Day Club and D\'tukad River Club sit beside it with infinity pools overlooking the falls if you want to linger.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tegenungan+Waterfall+Bali', dist:'~10–13 km · ~25–35 min'},
+    {time:'11:00 AM', name:'Tegenungan Waterfall', blurb:'~15m waterfall with a swimmable pool at the base. Omma Day Club and D\'tukad River Club sit beside it with infinity pools overlooking the falls if you want to linger.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tegenungan+Waterfall+Bali', dist:'~10–13 km · ~25–35 min', photo:'waterfall'},
     {time:'Day', name:'Free / TBD', blurb:'', icon:'free'},
     {time:'Evening', name:'Dinner — TBD', blurb:'', icon:'food'}
   ]},
@@ -241,7 +243,7 @@ const defaultData = [
   ]},
   {id:'d8', date:'Sat, Aug 29', tag:'Nusa Dua', sub:'Departure day — Day Hair Habit appointment 2–6 PM', leg:'seminyak', hotel:'The Ritz-Carlton, Bali (Nusa Dua)', stops:[
     {time:'~1:15 PM', name:'Depart for Day Hair Habit (Labuansait)', blurb:'~35–40 min drive, ~18–20 km.', icon:'free'},
-    {time:'2:00 PM', name:'Day Hair Habit — Labuansait', blurb:'4-hour appointment — cuts, color, keratin, blowouts. Ends ~6:00 PM.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Day+Hair+Habit+Labuansait+Uluwatu+Bali', dist:'~18–20 km · ~35–40 min', whatsapp:'https://wa.me/6285958585878'},
+    {time:'2:00 PM', name:'Day Hair Habit — Labuansait', blurb:'4-hour appointment — cuts, color, keratin, blowouts. Ends ~6:00 PM.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Day+Hair+Habit+Labuansait+Uluwatu+Bali', dist:'~18–20 km · ~35–40 min', whatsapp:'https://wa.me/6285958585878', photo:'beauty'},
     {time:'~6:00 PM', name:'Depart for hotel', blurb:'~35–40 min drive, ~18–20 km.', icon:'free'},
     {time:'Evening', name:'Shower, pack, relaxed dinner near the hotel', blurb:'~6:40 PM arrival back, ~3 hrs before heading to the airport.', icon:'free'},
     {time:'~10:00–10:30 PM', name:'Head to DPS airport', blurb:'', icon:'flight', maps:'https://www.google.com/maps/search/?api=1&query=Ngurah+Rai+International+Airport+DPS', dist:'~10–12 km · ~20–25 min', photo:'airplane'}
