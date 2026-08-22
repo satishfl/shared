@@ -191,7 +191,7 @@ const defaultData = [
     {time:'2:00 PM', name:'Depart for Mason Elephant Park', blurb:'~31 min drive, 13.6 km from Kuber ATV — much closer from here than from the hotel.', icon:'free'},
     {time:'2:30 PM', name:'Mason Elephant Park & Lodge', blurb:'4/5 on TripAdvisor (~1,500 reviews). Feeding, bathing, museum — budget ~2 hrs. Reviews on the ethics are mixed despite the sanctuary branding, worth knowing going in.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Mason+Elephant+Park+%26+Lodge+Bali', dist:'~18.4 km · ~46 min', fromPrev:'~13.6 km · ~31 min from Kuber Bali Adventure (ATV)', photo:'elephant'},
     {time:'4:30 PM', name:'Depart for hotel', blurb:'~46 min drive, 18.4 km.', icon:'free'},
-    {time:'Evening', name:'Spa treatment + dinner at Maya Ubud', blurb:'~5:15 PM arrival back.', icon:'food'}
+    {time:'Evening', name:'Fresh Beauty Lounge Ubud', blurb:'~5:15 PM arrival back — replaces the earlier generic spa plan. Dinner in central Ubud can follow nearby.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Fresh+Beauty+Lounge+Ubud+Bali', dist:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6281246612611'}
   ]},
   {id:'d3', date:'Mon, Aug 24', tag:'Ubud → Ubud', sub:'Alas Harum & Monkey Forest, hotel swap', leg:'ubud', hotel:'Maya Ubud Resort & Spa (until check-in at Viceroy Bali)', stops:[
     {time:'7:30 AM', name:'Check out — Maya Ubud Resort & Spa', blurb:'~25 min drive to Alas Harum.', icon:'stay'},
@@ -277,7 +277,7 @@ function stopView(stop){
           <div class="stop-time">${esc(stop.time)}</div>
           <div class="stop-name">${esc(stop.name)}</div>
           ${stop.blurb ? `<div class="stop-blurb">${esc(stop.blurb)}</div>` : ''}
-          ${stop.maps ? `<div class="stop-map"><a href="${stop.maps}" target="_blank" rel="noopener">View on Google Maps</a>${stop.dist ? ` <span class="stop-dist">· ${esc(stop.dist)} from hotel</span>` : ''}</div>` : ''}
+          ${stop.maps ? `<div class="stop-map"><a href="${stop.maps}" target="_blank" rel="noopener">View on Google Maps</a>${stop.dist ? ` <span class="stop-dist">· ${esc(stop.dist)} from hotel</span>` : ''}${stop.whatsapp ? ` · <a href="${stop.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>` : ''}</div>` : ''}
           ${stop.fromPrev ? `<div class="stop-map"><span class="stop-dist">↳ ${esc(stop.fromPrev)}</span></div>` : ''}
         </div>
       </div>
