@@ -59,18 +59,18 @@
   .links-list{display:flex; flex-direction:column; gap:10px; margin-top:14px;}
   .links-list a{color:var(--jade); font-size:14px; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:10px; display:block;}
 
-  .ubud-links-list{display:flex; flex-direction:column; gap:12px; margin-top:14px;}
-  .ubud-link-item{border-bottom:1px solid var(--line); padding-bottom:10px;}
-  .ubud-link-row{display:flex; align-items:baseline; gap:10px;}
-  .ubud-link-row a.ubud-link-main{flex:1; min-width:0; color:inherit; text-decoration:none; display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
-  .ubud-link-name{color:var(--jade); font-size:14px;}
-  .ubud-link-dist{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); white-space:nowrap; flex:0 0 auto;}
-  .ubud-link-wa{flex:0 0 auto; color:var(--jade); text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:11px; border:1px solid var(--line); border-radius:20px; padding:2px 8px; white-space:nowrap;}
-  .ubud-link-wa:hover{color:var(--gold); border-color:var(--gold);}
-  .ubud-link-note{margin-top:4px; font-size:12px; color:var(--muted); line-height:1.4;}
-  .ubud-link-highlight{margin-top:4px; font-size:12px; color:var(--muted); line-height:1.4; font-style:italic;}
-  .ubud-subsection-label{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin:18px 0 8px;}
-  .ubud-subsection-label:first-of-type{margin-top:16px;}
+  .loc-links-list{display:flex; flex-direction:column; gap:12px; margin-top:14px;}
+  .loc-link-item{border-bottom:1px solid var(--line); padding-bottom:10px;}
+  .loc-link-row{display:flex; align-items:baseline; gap:10px;}
+  .loc-link-row a.loc-link-main{flex:1; min-width:0; color:inherit; text-decoration:none; display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .loc-link-name{color:var(--jade); font-size:14px;}
+  .loc-link-dist{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); white-space:nowrap; flex:0 0 auto;}
+  .loc-link-wa{flex:0 0 auto; color:var(--jade); text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:11px; border:1px solid var(--line); border-radius:20px; padding:2px 8px; white-space:nowrap;}
+  .loc-link-wa:hover{color:var(--gold); border-color:var(--gold);}
+  .loc-link-note{margin-top:4px; font-size:12px; color:var(--muted); line-height:1.4;}
+  .loc-link-highlight{margin-top:4px; font-size:12px; color:var(--muted); line-height:1.4; font-style:italic;}
+  .loc-subsection-label{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin:18px 0 8px;}
+  .loc-subsection-label:first-of-type{margin-top:16px;}
 
   .divider{max-width:640px; margin:8px auto 0; padding:0 20px;}
   .divider hr{border:none; height:1px; background:linear-gradient(to right, transparent, var(--line), transparent);}
@@ -156,6 +156,16 @@ const UBUD_LINKS = [
   {category:'attraction', label:'Goa Gajah (Elephant Cave)', url:'https://www.google.com/maps/search/?api=1&query=Goa+Gajah+Elephant+Cave+Bali', distance:'~5–6 km · ~10–15 min', highlight:"9th-century rock-cut meditation cave and temple, one of Bali's oldest sites."}
 ];
 // The WhatsApp-sourcing caveat is shown on the page itself, in the Ubud Links day-sub line.
+
+// Distances here are from The Ritz-Carlton, Bali (Nusa Dua) — see the day-sub line on the
+// page. None of these three are actually in Nusa Dua town; they're on the Bukit Peninsula
+// (Uluwatu/Jimbaran), the same area the Wed/Fri itinerary days already visit, so distances
+// reuse those already-vetted point-to-point figures where the route matches.
+const NUSA_DUA_LINKS = [
+  {category:'dining', label:'Malini Uluwatu', url:'https://www.google.com/maps/search/?api=1&query=Malini+Uluwatu+Bali', distance:'~15 km · ~35 min', whatsapp:'https://wa.me/628112974999', note:'Corrected from "Malani" — the actual name is Malini Uluwatu.', highlight:'Cliffside seafood restaurant ~500m from Uluwatu Temple, known for sunset-facing tables over the ocean.'},
+  {category:'dining', label:'Rock Bar (AYANA Resort, Jimbaran)', url:'https://www.google.com/maps/search/?api=1&query=Rock+Bar+Bali+AYANA+Resort+Jimbaran', distance:'~13.7 km · ~32 min', whatsapp:'https://wa.me/6281138202288', note:'Multiple contact numbers listed across sources — this is one of them, worth confirming.', highlight:'Iconic cliffside sunset bar built into the rock face, reached by funicular — book ahead.'},
+  {category:'hotel', label:'Anantara Uluwatu Bali Resort', url:'https://www.google.com/maps/search/?api=1&query=Anantara+Uluwatu+Bali+Resort', distance:'~15–18 km · ~35–40 min', highlight:'Clifftop luxury resort near Uluwatu Temple, known for its infinity pool over the Indian Ocean.'}
+];
 
 // Each day carries a `hotel` field naming the hotel that day's stop distances are
 // measured from (shown in the UI as "Distances below from: ..."). Distances/times on
@@ -296,18 +306,18 @@ function linksView(){
     </section>`;
 }
 
-function ubudLinkItem(l){
+function locLinkItem(l){
   return `
-    <div class="ubud-link-item">
-      <div class="ubud-link-row">
-        <a class="ubud-link-main" href="${l.url}" target="_blank" rel="noopener">
-          <span class="ubud-link-name">${esc(l.label)}</span>
-          <span class="ubud-link-dist">${esc(l.distance)}</span>
+    <div class="loc-link-item">
+      <div class="loc-link-row">
+        <a class="loc-link-main" href="${l.url}" target="_blank" rel="noopener">
+          <span class="loc-link-name">${esc(l.label)}</span>
+          <span class="loc-link-dist">${esc(l.distance)}</span>
         </a>
-        ${l.whatsapp ? `<a class="ubud-link-wa" href="${l.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+        ${l.whatsapp ? `<a class="loc-link-wa" href="${l.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
       </div>
-      ${l.highlight ? `<div class="ubud-link-highlight">${esc(l.highlight)}</div>` : ''}
-      ${l.note ? `<div class="ubud-link-note">${esc(l.note)}</div>` : ''}
+      ${l.highlight ? `<div class="loc-link-highlight">${esc(l.highlight)}</div>` : ''}
+      ${l.note ? `<div class="loc-link-note">${esc(l.note)}</div>` : ''}
     </div>`;
 }
 
@@ -322,24 +332,36 @@ function byDistance(a, b){
   return kmValue(a.distance) - kmValue(b.distance);
 }
 
+function categorySection(links, category, label){
+  const items = links.filter(l => l.category === category).sort(byDistance).map(locLinkItem).join('');
+  if (!items) return '';
+  return `<div class="loc-subsection-label">${esc(label)}</div><div class="loc-links-list">${items}</div>`;
+}
+
 function ubudLinksView(){
-  const spas = UBUD_LINKS.filter(l => l.category === 'spa').sort(byDistance).map(ubudLinkItem).join('');
-  const attractions = UBUD_LINKS.filter(l => l.category === 'attraction').sort(byDistance).map(ubudLinkItem).join('');
   return `
     <section class="day">
       <div class="day-head"><span class="day-label" style="font-size:22px;">Ubud Links</span></div>
       <div class="day-sub">Google Maps links + estimated distance/time from Maya Ubud Resort &amp; Spa, nearest first. WhatsApp numbers were found via web search, not dialed to confirm — a few businesses had more than one number listed, so treat these as a best guess.</div>
-      <div class="ubud-subsection-label">Spas</div>
-      <div class="ubud-links-list">${spas}</div>
-      <div class="ubud-subsection-label">Other Attractions</div>
-      <div class="ubud-links-list">${attractions}</div>
+      ${categorySection(UBUD_LINKS, 'spa', 'Spas')}
+      ${categorySection(UBUD_LINKS, 'attraction', 'Other Attractions')}
+    </section>`;
+}
+
+function nusaDuaLinksView(){
+  return `
+    <section class="day">
+      <div class="day-head"><span class="day-label" style="font-size:22px;">Nusa Dua Links</span></div>
+      <div class="day-sub">Google Maps links + estimated distance/time from The Ritz-Carlton, Bali (Nusa Dua), nearest first. These sit on the Bukit Peninsula rather than Nusa Dua town itself — same area the Uluwatu/Jimbaran days already cover. WhatsApp numbers were found via web search, not dialed to confirm.</div>
+      ${categorySection(NUSA_DUA_LINKS, 'dining', 'Dining & Bars')}
+      ${categorySection(NUSA_DUA_LINKS, 'hotel', 'Hotels & Resorts')}
     </section>`;
 }
 
 function render(){
   renderNav();
   const app = document.getElementById('app');
-  app.innerHTML = data.map(d => dayView(d)).join('') + ubudLinksView() + linksView();
+  app.innerHTML = data.map(d => dayView(d)).join('') + ubudLinksView() + nusaDuaLinksView() + linksView();
 }
 
 render();
