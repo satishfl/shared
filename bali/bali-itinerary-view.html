@@ -68,6 +68,9 @@
   .ubud-link-wa{flex:0 0 auto; color:var(--jade); text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:11px; border:1px solid var(--line); border-radius:20px; padding:2px 8px; white-space:nowrap;}
   .ubud-link-wa:hover{color:var(--gold); border-color:var(--gold);}
   .ubud-link-note{margin-top:4px; font-size:12px; color:var(--muted); line-height:1.4;}
+  .ubud-link-highlight{margin-top:4px; font-size:12px; color:var(--muted); line-height:1.4; font-style:italic;}
+  .ubud-subsection-label{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin:18px 0 8px;}
+  .ubud-subsection-label:first-of-type{margin-top:16px;}
 
   .divider{max-width:640px; margin:8px auto 0; padding:0 20px;}
   .divider hr{border:none; height:1px; background:linear-gradient(to right, transparent, var(--line), transparent);}
@@ -128,27 +131,29 @@ const LINKS = [
 
 // Distances/times are estimates from Maya Ubud Resort & Spa (Peliatan, Ubud) — worth
 // double-checking against Google Maps live traffic before locking in a day plan. Per-entry
-// caveats are shown on the page itself via the `note` field, not just here.
+// caveats are shown on the page itself via the `note` field, not just here. `category`
+// ('spa' or 'attraction') splits the rendered list into subsections; `highlight` is a
+// one-line "known for" fact, sourced from reviews/official sites, shown under each row.
 const UBUD_LINKS = [
-  {label:'Sekumpul Waterfall', url:'https://www.google.com/maps/search/?api=1&query=Sekumpul+Waterfall+Bali', distance:'~75–80 km · ~2–2.5 hr'},
-  {label:'The Hanging Cafe (Sekumpul)', url:'https://www.google.com/maps/search/?api=1&query=Hanging+Restaurant+Sekumpul+Bali', distance:'~75–80 km · ~2–2.5 hr', whatsapp:'https://wa.me/6287762441229'},
-  {label:'Karsa Spa', url:'https://www.google.com/maps/search/?api=1&query=Karsa+Spa+Ubud+Bali', distance:'~6–7 km · ~20–25 min', whatsapp:'https://wa.me/6281353392013'},
-  {label:'Mekar by K Club', url:'https://www.google.com/maps/search/?api=1&query=Mekar+by+K+Club+Ubud+Bali', distance:'~10–12 km · ~20–25 min', whatsapp:'https://wa.me/6281802185888'},
-  {label:'Hesa Wellness Spa', url:'https://www.google.com/maps/search/?api=1&query=Hesa+Wellness+Spa+Ubud+Bali', distance:'~4–5 km · ~10–15 min', whatsapp:'https://wa.me/6287836002121'},
-  {label:'Putri Bali Spa', url:'https://www.google.com/maps/search/?api=1&query=Putri+Bali+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min', whatsapp:'https://wa.me/6281936318394'},
-  {label:'Kamandaka Spa', url:'https://www.google.com/maps/search/?api=1&query=Kamandaka+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min', whatsapp:'https://wa.me/628113984566'},
-  {label:'Akasa Cafe (Kintamani — Mt Batur views)', url:'https://www.google.com/maps/search/?api=1&query=Akasa+Specialty+Coffee+Kintamani+Bali', distance:'~38–40 km · ~50–60 min'},
-  {label:'Jalan Goutama (shopping street)', url:'https://www.google.com/maps/search/?api=1&query=Jalan+Goutama+Ubud+Bali', distance:'~3–4 km · ~10–15 min'},
-  {label:'Jungle Cart (karting)', url:'https://www.google.com/maps/search/?api=1&query=Jungle+Cart+Bali+Kedewatan+Ubud', distance:'~5–7 km · ~15–20 min', whatsapp:'https://wa.me/6287779071000', note:'Distance is to the Kedewatan check-in office — the track itself is a further ~30 min shuttle ride away in Payangan.'},
-  {label:'Svaha Wellness (Spa Bisma)', url:'https://www.google.com/maps/search/?api=1&query=Svaha+Spa+Bisma+Ubud+Bali', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6281235447189', note:'Svaha has other branches around Ubud too — Celuk, Teges, Kenderan — confirm which one you mean.'},
-  {label:'The Heaven Garden (Lempuyang, East Bali)', url:'https://www.google.com/maps/search/?api=1&query=The+Heaven+Garden+Lempuyang+Karangasem+Bali', distance:'~70–90 km · ~2–3 hr', whatsapp:'https://wa.me/6285808381312', note:'Not an Ubud-area stop — this is the Lempuyang "Gates of Heaven" site in East Bali, a full-day trip.'},
-  {label:'Goa Gajah (Elephant Cave)', url:'https://www.google.com/maps/search/?api=1&query=Goa+Gajah+Elephant+Cave+Bali', distance:'~5–6 km · ~10–15 min'},
-  {label:'Jaens Spa (Center, Pengosekan)', url:'https://www.google.com/maps/search/?api=1&query=Jaens+Spa+Center+Ubud+Bali', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6282144439147', note:'Jaens has other branches too — Triloka, Shanti, Bisma — confirm which one you mean.'},
-  {label:'INKA Ubud Spa', url:'https://www.google.com/maps/search/?api=1&query=INKA+Ubud+Spa+Monkey+Forest', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6282340949955'},
-  {label:'Sang Spa Tropical', url:'https://www.google.com/maps/search/?api=1&query=Sang+Spa+Tropical+Ubud+Bali', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6281246113339'},
-  {label:'Gold Dust Spa (Canggu)', url:'https://www.google.com/maps/search/?api=1&query=Goldust+Beauty+Lounge+Canggu+Bali', distance:'~28 km · ~45–90 min', note:'Not an Ubud-area stop — this is in Canggu, on the coast.'},
-  {label:'Capella Spa (Auriga, Tegallalang)', url:'https://www.google.com/maps/search/?api=1&query=Auriga+Spa+Capella+Ubud+Bali', distance:'~9–10 km · ~20–25 min', whatsapp:'https://wa.me/6281138204534'},
-  {label:'COMO Shambhala Estate (Payangan)', url:'https://www.google.com/maps/search/?api=1&query=COMO+Shambhala+Estate+Payangan+Bali', distance:'~8–9 km · ~20–25 min', whatsapp:'https://wa.me/6281138214845'}
+  {category:'spa', label:'Karsa Spa', url:'https://www.google.com/maps/search/?api=1&query=Karsa+Spa+Ubud+Bali', distance:'~6–7 km · ~20–25 min', whatsapp:'https://wa.me/6281353392013', highlight:'Rice-paddy jungle setting; the flower bath and deep-tissue massage are the standouts.'},
+  {category:'spa', label:'Mekar by K Club', url:'https://www.google.com/maps/search/?api=1&query=Mekar+by+K+Club+Ubud+Bali', distance:'~10–12 km · ~20–25 min', whatsapp:'https://wa.me/6281802185888', highlight:'Farm-to-spa jungle setting, known for its signature cocoon treatments.'},
+  {category:'spa', label:'Hesa Wellness Spa', url:'https://www.google.com/maps/search/?api=1&query=Hesa+Wellness+Spa+Ubud+Bali', distance:'~4–5 km · ~10–15 min', whatsapp:'https://wa.me/6287836002121', highlight:'5,000+ five-star reviews; hot/cold plunge pools and hammam treatments.'},
+  {category:'spa', label:'Putri Bali Spa', url:'https://www.google.com/maps/search/?api=1&query=Putri+Bali+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min', whatsapp:'https://wa.me/6281936318394', highlight:'Signature flower-petal bath, widely reviewed as outstanding value.'},
+  {category:'spa', label:'Kamandaka Spa', url:'https://www.google.com/maps/search/?api=1&query=Kamandaka+Spa+Ubud+Bali', distance:'~6–7 km · ~15–20 min', whatsapp:'https://wa.me/628113984566', highlight:'World Luxury Spa Award winner inside Sanna Ubud; rainforest-and-river setting.'},
+  {category:'spa', label:'Svaha Wellness (Spa Bisma)', url:'https://www.google.com/maps/search/?api=1&query=Svaha+Spa+Bisma+Ubud+Bali', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6281235447189', note:'Svaha has other branches around Ubud too — Celuk, Teges, Kenderan — confirm which one you mean.', highlight:'Award-winning sustainable holistic spa, bamboo architecture over rice paddies.'},
+  {category:'spa', label:'Jaens Spa (Center, Pengosekan)', url:'https://www.google.com/maps/search/?api=1&query=Jaens+Spa+Center+Ubud+Bali', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6282144439147', note:'Jaens has other branches too — Triloka, Shanti, Bisma — confirm which one you mean.', highlight:'Affordable, highly-rated traditional Balinese massage chain.'},
+  {category:'spa', label:'INKA Ubud Spa', url:'https://www.google.com/maps/search/?api=1&query=INKA+Ubud+Spa+Monkey+Forest', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6282340949955', highlight:'Boutique Mediterranean-meets-Bali spa on Monkey Forest Road; facials and nails.'},
+  {category:'spa', label:'Sang Spa Tropical', url:'https://www.google.com/maps/search/?api=1&query=Sang+Spa+Tropical+Ubud+Bali', distance:'~3–4 km · ~10–15 min', whatsapp:'https://wa.me/6281246113339', highlight:'Organic healing spa and yoga studio in quiet Pengosekan village.'},
+  {category:'spa', label:'Gold Dust Spa (Canggu)', url:'https://www.google.com/maps/search/?api=1&query=Goldust+Beauty+Lounge+Canggu+Bali', distance:'~28 km · ~45–90 min', note:'Not an Ubud-area stop — this is in Canggu, on the coast.', highlight:'Popular Canggu beauty lounge for facials, waxing, and reflexology.'},
+  {category:'spa', label:'Capella Spa (Auriga, Tegallalang)', url:'https://www.google.com/maps/search/?api=1&query=Auriga+Spa+Capella+Ubud+Bali', distance:'~9–10 km · ~20–25 min', whatsapp:'https://wa.me/6281138204534', highlight:'Ultra-luxury spa inside the Capella tented-camp jungle resort.'},
+  {category:'spa', label:'COMO Shambhala Estate (Payangan)', url:'https://www.google.com/maps/search/?api=1&query=COMO+Shambhala+Estate+Payangan+Bali', distance:'~8–9 km · ~20–25 min', whatsapp:'https://wa.me/6281138214845', highlight:'The original Bali destination wellness retreat, on the Ayung River.'},
+  {category:'attraction', label:'Sekumpul Waterfall', url:'https://www.google.com/maps/search/?api=1&query=Sekumpul+Waterfall+Bali', distance:'~75–80 km · ~2–2.5 hr', highlight:"Bali's tallest, most dramatic multi-tier waterfall — a steep jungle trek to reach."},
+  {category:'attraction', label:'The Hanging Cafe (Sekumpul)', url:'https://www.google.com/maps/search/?api=1&query=Hanging+Restaurant+Sekumpul+Bali', distance:'~75–80 km · ~2–2.5 hr', whatsapp:'https://wa.me/6287762441229', highlight:'Cliffside restaurant with a panoramic view over the waterfall valley.'},
+  {category:'attraction', label:'Akasa Cafe (Kintamani — Mt Batur views)', url:'https://www.google.com/maps/search/?api=1&query=Akasa+Specialty+Coffee+Kintamani+Bali', distance:'~38–40 km · ~50–60 min', highlight:'Caldera-rim coffee spot known for sunrise views of Mt Batur and the lake.'},
+  {category:'attraction', label:'Jalan Goutama (shopping street)', url:'https://www.google.com/maps/search/?api=1&query=Jalan+Goutama+Ubud+Bali', distance:'~3–4 km · ~10–15 min', highlight:'Pedestrian lane of boutiques and cafes, 200m from Ubud Palace.'},
+  {category:'attraction', label:'Jungle Cart (karting)', url:'https://www.google.com/maps/search/?api=1&query=Jungle+Cart+Bali+Kedewatan+Ubud', distance:'~5–7 km · ~15–20 min', whatsapp:'https://wa.me/6287779071000', note:'Distance is to the Kedewatan check-in office — the track itself is a further ~30 min shuttle ride away in Payangan.', highlight:'Go-kart track winding through jungle, rice fields, and a Dutch-era tunnel.'},
+  {category:'attraction', label:'The Heaven Garden (Lempuyang, East Bali)', url:'https://www.google.com/maps/search/?api=1&query=The+Heaven+Garden+Lempuyang+Karangasem+Bali', distance:'~70–90 km · ~2–3 hr', whatsapp:'https://wa.me/6285808381312', note:'Not an Ubud-area stop — this is the Lempuyang "Gates of Heaven" site in East Bali, a full-day trip.', highlight:'The iconic "Gates of Heaven" split-gate photo spot beside Pura Lempuyang.'},
+  {category:'attraction', label:'Goa Gajah (Elephant Cave)', url:'https://www.google.com/maps/search/?api=1&query=Goa+Gajah+Elephant+Cave+Bali', distance:'~5–6 km · ~10–15 min', highlight:"9th-century rock-cut meditation cave and temple, one of Bali's oldest sites."}
 ];
 // The WhatsApp-sourcing caveat is shown on the page itself, in the Ubud Links day-sub line.
 
@@ -291,8 +296,8 @@ function linksView(){
     </section>`;
 }
 
-function ubudLinksView(){
-  const items = UBUD_LINKS.map(l => `
+function ubudLinkItem(l){
+  return `
     <div class="ubud-link-item">
       <div class="ubud-link-row">
         <a class="ubud-link-main" href="${l.url}" target="_blank" rel="noopener">
@@ -301,13 +306,22 @@ function ubudLinksView(){
         </a>
         ${l.whatsapp ? `<a class="ubud-link-wa" href="${l.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
       </div>
+      ${l.highlight ? `<div class="ubud-link-highlight">${esc(l.highlight)}</div>` : ''}
       ${l.note ? `<div class="ubud-link-note">${esc(l.note)}</div>` : ''}
-    </div>`).join('');
+    </div>`;
+}
+
+function ubudLinksView(){
+  const spas = UBUD_LINKS.filter(l => l.category === 'spa').map(ubudLinkItem).join('');
+  const attractions = UBUD_LINKS.filter(l => l.category === 'attraction').map(ubudLinkItem).join('');
   return `
     <section class="day">
       <div class="day-head"><span class="day-label" style="font-size:22px;">Ubud Links</span></div>
       <div class="day-sub">Google Maps links + estimated distance/time from Maya Ubud Resort &amp; Spa. WhatsApp numbers were found via web search, not dialed to confirm — a few businesses had more than one number listed, so treat these as a best guess.</div>
-      <div class="ubud-links-list">${items}</div>
+      <div class="ubud-subsection-label">Spas</div>
+      <div class="ubud-links-list">${spas}</div>
+      <div class="ubud-subsection-label">Other Attractions</div>
+      <div class="ubud-links-list">${attractions}</div>
     </section>`;
 }
 
