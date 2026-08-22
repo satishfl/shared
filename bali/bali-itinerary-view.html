@@ -165,7 +165,8 @@ const NUSA_DUA_LINKS = [
   {category:'dining', label:'Malini Uluwatu', url:'https://www.google.com/maps/search/?api=1&query=Malini+Uluwatu+Bali', distance:'~15 km · ~35 min', whatsapp:'https://wa.me/628112974999', highlight:'Cliffside seafood restaurant ~500m from Uluwatu Temple, known for sunset-facing tables over the ocean.'},
   {category:'dining', label:'Rock Bar (AYANA Resort, Jimbaran)', url:'https://www.google.com/maps/search/?api=1&query=Rock+Bar+Bali+AYANA+Resort+Jimbaran', distance:'~13.7 km · ~32 min', whatsapp:'https://wa.me/6281138202288', note:'Multiple contact numbers listed across sources — this is one of them, worth confirming.', highlight:'Iconic cliffside sunset bar built into the rock face, reached by funicular — book ahead.'},
   {category:'hotel', label:'Anantara Uluwatu Bali Resort', url:'https://www.google.com/maps/search/?api=1&query=Anantara+Uluwatu+Bali+Resort', distance:'~15–18 km · ~35–40 min', highlight:'Clifftop luxury resort near Uluwatu Temple, known for its infinity pool over the Indian Ocean.'},
-  {category:'beach', label:'Padang Padang Beach', url:'https://www.google.com/maps/search/?api=1&query=Padang+Padang+Beach+Bali', distance:'~18–20 km · ~35–40 min', highlight:'The "Eat Pray Love" beach — famous surf spot with the Balinese Pipeline break, ~1km from Anantara Uluwatu.'}
+  {category:'beach', label:'Padang Padang Beach', url:'https://www.google.com/maps/search/?api=1&query=Padang+Padang+Beach+Bali', distance:'~18–20 km · ~35–40 min', highlight:'The "Eat Pray Love" beach — famous surf spot with the Balinese Pipeline break, ~1km from Anantara Uluwatu.'},
+  {category:'beauty', label:'Day Hair Habit', url:'https://www.google.com/maps/search/?api=1&query=Day+Hair+Habit+Labuansait+Uluwatu+Bali', distance:'~18–20 km · ~35–40 min', whatsapp:'https://wa.me/6285958585878', note:'Also has an Ubud location — this entry is the Uluwatu (Labuansait) salon.', highlight:'Hair salon on Labuansait, near Bingin — cuts, color, keratin, and blowouts.'}
 ];
 
 // Each day carries a `hotel` field naming the hotel that day's stop distances are
@@ -357,6 +358,7 @@ function nusaDuaLinksView(){
       ${categorySection(NUSA_DUA_LINKS, 'dining', 'Dining & Bars')}
       ${categorySection(NUSA_DUA_LINKS, 'hotel', 'Hotels & Resorts')}
       ${categorySection(NUSA_DUA_LINKS, 'beach', 'Beaches')}
+      ${categorySection(NUSA_DUA_LINKS, 'beauty', 'Salons & Beauty')}
     </section>`;
 }
 
