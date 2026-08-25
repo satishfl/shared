@@ -153,7 +153,6 @@ const UBUD_LINKS = [
   {category:'spa', label:'COMO Shambhala Estate (Payangan)', url:'https://www.google.com/maps/search/?api=1&query=COMO+Shambhala+Estate+Payangan+Bali', distance:'~8–9 km · ~20–25 min', whatsapp:'https://wa.me/6281138214845', highlight:'The original Bali destination wellness retreat, on the Ayung River.'},
   {category:'attraction', label:'Campuhan Ridge Walk', url:'https://www.google.com/maps/search/?api=1&query=Campuhan+Ridge+Walk+Ubud+Bali', distance:'~3 km · ~10 min', note:'Moved off the fixed Saturday itinerary to make room for the 6:30 PM Chaya Spa appointment — can revisit scheduling another day.', highlight:'Easy scenic ridge walk through grassy hills just outside central Ubud, popular timed just before sunset.'},
   {category:'attraction', label:'Alas Harum Bali (Tegalalang Rice Terrace)', url:'https://www.google.com/maps/search/?api=1&query=Alas+Harum+Bali', distance:'~9–10 km · ~25 min', note:'Was Monday morning\'s plan — swapped for Swing Heaven on the day.', highlight:'Swings, photo spots and rice-terrace views above Tegalalang; the Cretya Pool Club sits inside the same complex.'},
-  {category:'attraction', label:'Taman Dedari', url:'https://www.google.com/maps/search/?api=1&query=Taman+Dedari+Ubud+Bali', distance:'~7–9 km · ~20–25 min', note:'Not currently scheduled — can revisit another day.', highlight:'Garden restaurant on the Royal Pitamaha estate, known for its iconic angel statues; best timed for golden hour.'},
   {category:'attraction', label:'Tegenungan Waterfall', url:'https://www.google.com/maps/search/?api=1&query=Tegenungan+Waterfall+Bali', distance:'~10–13 km · ~25–35 min', note:'Not currently scheduled — can revisit another day.', highlight:"~15m waterfall with a swimmable pool at the base; Omma Day Club and D'tukad River Club sit beside it with infinity pools overlooking the falls."},
   {category:'attraction', label:'Sekumpul Waterfall', url:'https://www.google.com/maps/search/?api=1&query=Sekumpul+Waterfall+Bali', distance:'~75–80 km · ~2–2.5 hr', highlight:"Bali's tallest, most dramatic multi-tier waterfall — a steep jungle trek to reach."},
   {category:'attraction', label:'The Hanging Cafe (Sekumpul)', url:'https://www.google.com/maps/search/?api=1&query=Hanging+Restaurant+Sekumpul+Bali', distance:'~75–80 km · ~2–2.5 hr', whatsapp:'https://wa.me/6287762441229', highlight:'Cliffside restaurant with a panoramic view over the waterfall valley.'},
@@ -209,12 +208,14 @@ const defaultData = [
     {time:'~5:55 PM', name:'Check in — Viceroy Bali', blurb:'', icon:'stay', maps:'https://www.google.com/maps/search/?api=1&query=Viceroy+Bali+Ubud', dist:'~4.9 km · ~25 min from Monkey Forest'},
     {time:'Evening', name:'Dinner at Viceroy Bali', blurb:'', icon:'food'}
   ]},
-  {id:'d4', date:'Tue, Aug 25', tag:'Ubud', sub:'Day trip — The Heaven Garden (Lempuyang)', leg:'ubud', hotel:'Viceroy Bali', stops:[
+  {id:'d4', date:'Tue, Aug 25', tag:'Ubud', sub:'Day trip — The Heaven Garden (Lempuyang), Tirta Gangga & Taman Dedari sunset dinner', leg:'ubud', hotel:'Viceroy Bali', stops:[
     {time:'7:00 AM', name:'Breakfast at Viceroy Bali', blurb:'', icon:'food'},
     {time:'8:00 AM', name:'Depart for The Heaven Garden (Lempuyang)', blurb:'~70–90 km, ~2–3 hr drive to East Bali — a full-day trip.', icon:'free'},
     {time:'~10:30 AM', name:'The Heaven Garden — Gates of Heaven', blurb:'The iconic split-gate photo spot beside Pura Lempuyang.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=The+Heaven+Garden+Lempuyang+Karangasem+Bali', dist:'~70–90 km · ~2–3 hr', whatsapp:'https://wa.me/6285808381312'},
-    {time:'Day', name:'Free / TBD', blurb:'Includes the ~2–3 hr drive back to Ubud.', icon:'free'},
-    {time:'Evening', name:'Dinner — TBD', blurb:'', icon:'food'}
+    {time:'2:30 PM', name:'Tirta Gangga', blurb:'Water palace with koi ponds and stepping-stone fountains, Karangasem.', icon:'sight', maps:'https://www.google.com/maps/search/?api=1&query=Tirta+Gangga+Karangasem+Bali', dist:'~75–85 km · ~2–2.5 hr', fromPrev:'~5–8 km · ~15–20 min from The Heaven Garden — estimate', photo:'templeWater'},
+    {time:'~4:00 PM', name:'Depart for Taman Dedari', blurb:'~2–2.5 hr drive back toward Ubud, ~75–85 km — estimate; worth confirming against live Maps traffic.', icon:'free'},
+    {time:'6:30 PM', name:'Taman Dedari — sunset dinner', blurb:'Garden restaurant on the Royal Pitamaha estate, known for its iconic angel statues. Time it for golden hour.', icon:'food', maps:'https://www.google.com/maps/search/?api=1&query=Taman+Dedari+Ubud+Bali', dist:'~7–9 km · ~20–25 min', photo:'statueGarden'},
+    {time:'~8:00 PM', name:'Back to Viceroy Bali', blurb:'~20–25 min drive, ~7–9 km from Taman Dedari.', icon:'free'}
   ]},
   {id:'d5', date:'Wed, Aug 26', tag:'Ubud → Nusa Dua', sub:'Uluwatu & fire dance', leg:'seminyak', hotel:'The Ritz-Carlton, Bali (Nusa Dua) — after check-in', stops:[
     {time:'8:30 AM', name:'Breakfast at Viceroy Bali', blurb:'', icon:'food'},
